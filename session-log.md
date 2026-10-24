@@ -230,3 +230,85 @@ D. Gen 0 objects cannot reference Gen 2 objects.
 3. Revisit stack, registers, JIT liveness, and managed heap.
 4. Continue OS fundamentals with program vs. process, process address space, thread, stack, and context switching.
 5. Preserve all future user questions, assistant questions, answers, corrections, scores, and revision items in this repository structure.
+
+
+## E. OS fundamentals session — 24 October 2026
+
+### Teaching preference feedback
+**User feedback (verbatim):** “see I obsereved u tend to introduce new terms in between like physical memory pages
+
+i would prefer to be taught as abeginner while intorudcing thrse terms”
+
+**Action:** Adopt a beginner-first teaching contract: begin with intuition and concrete examples; define every new term before relying on it; introduce one new term at a time; distinguish the essential model from advanced detail; check prerequisites; and avoid unexplained jargon chains. This preference is also recorded in the roadmap for any continuing agent.
+
+### Questions asked by the assistant and learner responses
+
+1. **Prompt:** “Your service has 100 threads but only 4 CPU cores. Does that mean 100 threads execute simultaneously? What does the OS do with the runnable threads?”  
+   **Learner follow-up:** Asked what 4 CPU cores means.  
+   **Teaching points:** A core is a processing unit that can execute instructions. Many processes/threads can exist on a machine with four cores, but only a limited number of threads execute at once. The OS schedules runnable threads over time. Distinguish physical cores from logical processors; avoid implying four cores always means exactly four logical processors.
+
+2. **Prompt:** “How many process i can run on 4 core cpu”  
+   **Teaching points:** Process count is not fixed by core count. OS resource limits, memory, and workload matter. The OS schedules threads, not processes as indivisible units. Runnable CPU-bound threads compete for available execution capacity.
+
+3. **Prompt:** With 100 CPU-bound threads on four cores, what happens if thread count increases to 500?  
+   **Learner answer:** “decrease”  
+   **Evaluation:** Directionally reasonable: throughput may decrease due to context-switching, scheduling, memory, and contention overhead, but it is not guaranteed; workload and original saturation matter.
+
+4. **Prompt:** During a context switch, what information must the OS save and restore?  
+   **Learner answer:** “it will stack allocation info, where is that present in the memory”  
+   **Teaching points:** A thread's stack resides in its process's virtual address space; the OS does not normally copy the whole stack during a context switch. The saved CPU context includes the instruction pointer, stack pointer, and other necessary registers. Avoid unexplained address-space terminology; define it before using it.
+
+5. **Prompt:** Does the OS need to copy the entire stack of Thread A before switching away?  
+   **Learner answer:** “no it just need the stack pointer”  
+   **Evaluation:** Partly correct. The stack remains in memory and need not be copied, but the OS must preserve more than the stack pointer, including the instruction pointer and other required register state.
+
+6. **Prompt:** How does a thread resume inside Add() rather than restart at Calculate()?  
+   **Learner answer:** “instruction pointer”  
+   **Evaluation:** Correct. The instruction pointer identifies the next instruction to execute; the stack pointer identifies the current stack position; the call stack holds active call information.
+
+7. **Prompt:** Can Thread A access a local variable on Thread B's stack?  
+   **Learner answer:** “Yess they can access but that would require cross thread communication”  
+   **Evaluation:** Needs nuance. Ordinary code cannot directly name another function's local variable due to scope and per-thread execution state. Threads in one process share an address space, so shared objects can be accessed when references are passed/shared; this is different from directly accessing another thread's local variable.
+
+8. **Prompt:** Can two threads increment a shared counter and end with an incorrect value?  
+   **Learner answer:** “if counter is shared variable the final value canbe incorrect due to race condition”  
+   **Evaluation:** Correct. Increment is a read-modify-write operation and can cause a lost update without synchronization. Introduced lock and Interlocked.Increment as different ways to handle synchronization/atomicity.
+
+9. **Prompt:** Can a reader see stale data if another thread writes a shared field?  
+   **Learner answer:** “Yesss”  
+   **Evaluation:** Correct direction. Need distinguish atomicity from memory visibility and learn C# memory-model guarantees.
+
+10. **Prompt:** Thread A writes under a lock, but Thread B reads without the same lock—does the lock alone guarantee visibility?  
+    **Learner answer:** “no it's gurrantee bcz lock is being acquired on update not read”  
+    **Evaluation:** Correct underlying conclusion: no guarantee from the writer's lock alone. Matching synchronization requires the reader to acquire the same lock (or another appropriate synchronization mechanism).
+
+11. **Prompt:** What if the two threads use different lock objects?  
+    **Learner answer:** “no, two different locks can't gurantte sync at any cost”  
+    **Evaluation:** Correct core idea. Different lock objects do not synchronize with one another. Shared state should be consistently protected with the same lock or another correctly applied synchronization primitive.
+
+12. **Prompt:** What is a program vs. a process, if the same executable is launched twice?  
+    **Learner answer:** “yeah so program you can treat it as code while process is a set of intructions to be executred. we will have 2 provss with its' own Virtual address space”  
+    **Evaluation:** Mostly correct. A program is passive instructions stored as an executable; a process is a running instance with execution state and OS-managed resources. Two ordinary launches typically create two processes, each with its own virtual address space and threads/stacks.
+
+13. **Prompt:** If Process A sets its global counter to 10, what does Process B's separate counter show?  
+    **Learner answer:** “it will see 0”  
+    **Evaluation:** Correct, assuming B hasn't changed its own counter. Each process has its own instance of writable global state. The same executable's read-only code may sometimes be shared in physical memory, but that advanced detail was introduced too early; explain the prerequisite concepts before revisiting it.
+
+### Concepts introduced; revisit with a slower explanation
+- CPU core vs. logical processor
+- Runnable vs. blocked threads; scheduling and context switching
+- Thread stack vs. saved CPU context
+- Instruction pointer vs. stack pointer vs. call stack
+- Process vs. program; process isolation and per-process global variables
+- Race conditions and lost updates
+- Atomicity vs. memory visibility
+- Lock and why both threads must use the same lock
+- Virtual address space vs. physical memory; do not expand into page mapping until the foundational model is taught
+
+### Next session / next steps
+1. Briefly recap program vs. process in plain language.
+2. Build the idea of a process's memory from the basics: what memory is used for, what it means for each process to have its own address space, and why one process normally cannot directly read another process's variables. Define each term before using it.
+3. Only after that foundation, introduce code/data/heap/stack and later virtual vs. physical memory.
+4. Continue threads and context switching with a simple step-by-step execution trace.
+5. Revisit races, atomicity, visibility, and locks after defining each concept from first principles.
+6. Continue to record exact learner answers, misconceptions, corrections, and revision items.
