@@ -10,6 +10,8 @@ This file is the source of truth for the study roadmap. Another agent should rea
 
 ---
 
+**Day-by-day execution schedule:** See [16-week daily schedule](./16-week-daily-schedule.md) for the concrete syllabus, practice, deliverable, and completion check for each study day. Use this alongside the weekly roadmap; the daily checklist is not optional merely because a session runs long.
+
 ## 1. Goals, constraints, and learning contract
 
 ### Goals
