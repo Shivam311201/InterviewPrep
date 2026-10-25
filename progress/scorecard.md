@@ -47,3 +47,29 @@ For full LLD/HLD or multi-part technical assessments, use five dimensions (0–3
 - Communication/clarity
 
 For a narrow fundamentals quiz, score only relevant dimensions and state the denominator. Do not represent the topic scores above as a 15-point assessment.
+
+
+## 16-week interview preparation — C# Day 1/Day 2 status (25 Oct 2026)
+
+This section tracks the new 16-week schedule separately from the older GC-focused scores above.
+
+| Topic | Status | Evidence / next step |
+|---|---|---|
+| Value-type assignment | Demonstrated | Correctly answered `10, 11`. |
+| Reference aliasing; mutation vs reassignment | Demonstrated at basic level | Correctly answered outputs `Bob/Charlie` and `2/3`. |
+| Default pass-by-value with reference types | Demonstrated at basic level | Correctly predicted mutation persists (`7`); retain the reference-copy explanation. |
+| `ref` and `out` basics | Demonstrated at basic level | Correctly answered simple output checks; full contrast still needs a concise explanation. |
+| `in` parameter | Not verified | Targeted question remains. |
+| Types/expressions and numeric conversions | Needs reinforcement | Missed integer division in `double b = a / 2`; correctly identified the floating-point cast case. |
+| Compile-time vs runtime overload resolution | Needs reinforcement | Initially chose runtime string overload for an `object`-typed argument; later corrected. |
+| Null overload resolution | Partial | Correctly identified ambiguity for unrelated `string` and `StringBuilder`; initially missed `string` being more specific than `object`. |
+| `var` vs `dynamic` | Partial | Understands dynamic reassignment; needed correction that `var` infers a fixed compile-time type. |
+| Boxing/unboxing | Needs reinforcement | Understands boxing makes a copy after explanation; missed exact-type unboxing behavior and integrated trace. |
+| Nullable values | Not assessed | Must assess `??`, `Value`, and `GetValueOrDefault()`. |
+| Execution pipeline | Not assessed | User objected to memorization-style question; revisit through practical runtime/debugging scenarios. |
+
+**Day 1: In progress — not complete.** Verify all scheduled foundations and the practical code-tracing checkpoint.
+
+**Day 2: In progress — not complete.** Finish nullable values, `in`, boxing/unboxing, and produce annotated traces/comparison table.
+
+**Next session starts with:** nullable-values check, `in` parameter check, and integer-division debugging question. Do not mark days complete based on discussion alone.
