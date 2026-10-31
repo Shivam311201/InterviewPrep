@@ -379,3 +379,44 @@ i would prefer to be taught as abeginner while intorudcing thrse terms”
 - Day 2: **In progress — not complete**
 - Next starting point: the three targeted checks above, then the remaining Day 1/Day 2 checkpoint gaps.
 
+
+## G. C# / OOP Day 3 theory and mixed assessment — 31 October 2026
+
+### Session status
+- Theory: complete for the planned Day 3 syllabus.
+- Mixed assessment: complete (10 questions).
+- Notification Delivery System assignment: conceptually complete by learner agreement; executable code and tests were not run or verified. Do not reopen unless requested.
+- Mastery: developing; targeted revision remains for method hiding/overriding, abstract class vs interface trade-offs, and retry policy boundaries.
+
+### Theory and edge cases covered
+1. `new` vs `override`: `new` hides a member and does not override the base virtual slot. A call through a Base reference selects the Base virtual slot; runtime dispatch reaches a derived implementation only if that slot is overridden. A FurtherDerived override fails with CS0506 when the nearest inherited same-named member in Derived is non-virtual due to `new`. Learner predicted failure; explanation supplied.
+2. `abstract`, `virtual`, `override`, `sealed override`: concrete derived types must implement abstract members but may inherit virtual implementations. `sealed override` overrides a virtual slot and prevents further overrides while remaining callable/inherited. Learner understood sealed and correctly said Dog need not override virtual Sleep after implementing abstract Eat.
+3. Abstract constructors: abstract classes may have instance constructors, which execute in the base-constructor chain when a concrete derived instance is created. Learner initially answered no; corrected.
+4. Static constructors: abstract classes may have static constructors; type initialization runs automatically once when the runtime first needs the type initialized. Learner answered yes.
+5. Virtual calls during construction: derived field initializers run before the base constructor body; the derived constructor body runs afterward. A base constructor virtual call dispatches to the derived override. `name = "Shivam"` field initializer prints Shivam; without it, default string value null prints; later constructor-body assignment to Developer occurs after the base call. Learner answered both traces correctly. Avoid virtual calls from constructors because derived state may be partially initialized.
+6. Explicit/implicit interfaces: explicit implementations are callable through interface references, not concrete references. Two same-signature interface methods can have distinct explicit implementations. One matching public method can implicitly satisfy both interfaces. Implementing a derived interface includes inherited base interface members. Learner correctly identified concrete `n.Send()` failure; reason is interface-only accessibility, not ambiguity in interface calls.
+7. Default interface methods (C# 8+): a class can omit an interface member with a default body; invoke it through an interface reference, not a concrete reference. A matching public class method satisfies the interface member and takes precedence for both interface references. If two interfaces each supply a default same-signature method and the class supplies none, calls through each interface select that interface default. Learner reasoned through conflict and class implementation cases.
+8. Composition and DI: prefer injected RetryHandler, logger, and metrics collaborators over inheriting merely to reuse those capabilities. RetryHandler owns execution mechanics (backoff, cancellation, exception handling); RetryPolicy carries configuration such as max retries and retryable exceptions. Email/SMS/Push can receive policies with 3/5/0 retries. Learner selected composition and configurable policy; refinement separated mechanism from policy.
+9. ISP: split IWorker into focused IWorkable and IEatable interfaces; HumanWorker implements both, RobotWorker only IWorkable. Learner proposed separation; explanation of why unsupported behavior should not be forced remains a small revision item.
+
+### Day 3 mixed assessment — prompts, answers, and scores
+1. Encapsulation/BankAccount invariant. Prompt: identify problems in public get/set Balance and unchecked Withdraw. Learner: “no check if balance is engough / balance is directly settable”. **2/3** — correctly identified insufficient-funds validation and public setter bypassing invariants; also reject non-positive amounts and route mutations through validated methods/private setter.
+2. Constructor order. Prompt: base constructor calls virtual Print; Child field initializer sets value=10 and constructor body sets 20. Learner: “10”. **3/3** — derived field initializer runs before base constructor body; derived constructor body runs later.
+3. Method hiding. Prompt: Parent.Execute virtual, Child.Execute declared new, Parent reference to Child invokes Execute. Learner: “Child”. **1/3** — correct output is Parent because Child did not override the Parent virtual slot. Highest-priority revision.
+4. Explicit interfaces. Prompt: Notification explicitly implements IEmail.Send and ISms.Send; call via both interfaces and concrete reference. Learner said it fails because it does not know which Send to call. **2/3** — interface calls work and print Email then SMS; only concrete `n.Send()` fails because explicit members are not exposed on the concrete type.
+5. Retry policy. Prompt: Email retries 3, SMS 5, Push 0; design mechanism and configuration. Learner: “retryhandler shoukld have a method that take retry count as input and accordinly return policy”. **2/3** — good instinct for per-service configuration; refine so RetryPolicy stores config and RetryHandler executes using it.
+6. Abstract class vs interface. Prompt: payment types share Pay contract plus logging/validation implementation. Learner: “interface”. **1.5/3** — interface is suitable for contract but misses shared implementation; consider IPayment plus abstract PaymentBase, or composition if inheritance is unsuitable.
+7. Readonly reference. Prompt: mutate a readonly List then reassign field. Learner: “1st complies 2nd fail”. **3/3** — readonly prevents field-reference reassignment, not mutation of referenced object.
+8. ISP. Prompt: HumanWorker can Work/Eat; RobotWorker can Work only. Learner: “seperate”. **2/3** — correct direction; articulate focused capability contracts and avoid forcing RobotWorker to implement Eat.
+9. Constructor chaining. Prompt: Parent has only Parent(int), Child constructor omits base initializer. Learner: “no, there is no default cobstrucitr for parent”. **3/3** — correct; Child must call an accessible base constructor such as `: base(10)`.
+10. DIP. Prompt: OrderService constructs `new EmailSender()` internally. Learner: “DIP, and also it's not testable as we can't moq emailSender”. **3/3** — correctly identified DIP, tight coupling, and lack of a mockable seam; inject IEmailSender.
+
+### Assessment total and correction
+The ten item scores are 2, 3, 1, 2, 2, 1.5, 3, 2, 3, 3 = **22.5/30 (75%)**. The prior assistant summary incorrectly stated 24.5/30; this repository entry corrects the arithmetic.
+
+### Revision queue and next session
+1. High priority: `new` vs `override`, virtual slots, compile-time reference type vs runtime object type; include a two-reference trace.
+2. Abstract class vs interface vs composition when a common contract and shared implementation are both required.
+3. RetryPolicy configuration vs RetryHandler execution mechanism.
+4. Brief spaced recall: explicit interface implementation and ISP.
+Next session: short targeted revision of items 1–3, then continue to Day 4. Do not repeat all Day 3 theory.
