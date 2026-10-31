@@ -73,3 +73,43 @@ This section tracks the new 16-week schedule separately from the older GC-focuse
 **Day 2: In progress — not complete.** Finish nullable values, `in`, boxing/unboxing, and produce annotated traces/comparison table.
 
 **Next session starts with:** nullable-values check, `in` parameter check, and integer-division debugging question. Do not mark days complete based on discussion alone.
+
+## Day 3 — OOP theory and mixed assessment (31 Oct 2026)
+
+### Status (track dimensions separately)
+- **Theory complete:** Yes — planned Day 3 topics covered: inheritance/polymorphism edge cases, abstract/virtual/sealed, constructors and initialization order, explicit/default interface implementations, ISP, composition, DI, and retry policy design.
+- **Assessment complete:** Yes — 10 questions completed.
+- **Practice complete:** Partial — Notification Delivery System assignment accepted as conceptually complete; executable code and tests were not run or verified.
+- **Mastery demonstrated:** Developing — targeted revision needed; do not mark every topic mastered based on exposure.
+
+### Mixed assessment — 22.5/30 (75%)
+Correction: the previous chat response mistakenly stated 24.5/30. The itemized scores sum to 22.5/30.
+
+| Topic | Score | Evidence / next action |
+|---|---:|---|
+| Encapsulation and invariants | 2/3 | Identified missing insufficient-funds check and public setter; revisit non-positive amounts and private setter. |
+| Constructor initialization order | 3/3 | Correctly traced derived field initializer before base constructor virtual call. |
+| `new` vs `override` | 1/3 | Predicted Child for a Base reference; correct result Parent. Highest-priority revision. |
+| Explicit interface implementation | 2/3 | Identified concrete-reference call failure; refine reason: explicit members are callable through interface references. |
+| Retry policy design | 2/3 | Separate policy config from retry mechanism; handler executes with supplied policy. |
+| Abstract class vs interface | 1.5/3 | Interface alone missed shared implementation; consider interface contract plus abstract base or composition. |
+| `readonly` reference types | 3/3 | Correctly distinguished mutation of referenced object from field reassignment. |
+| Interface Segregation Principle | 2/3 | Correctly proposed separation; strengthen explanation of focused capabilities. |
+| Constructor chaining | 3/3 | Correctly identified missing parameterless base constructor and need for `base(args)`. |
+| Dependency Inversion Principle | 3/3 | Correctly identified concrete construction, tight coupling, and testability problem. |
+
+### Strengths
+- Constructor ordering and virtual dispatch during construction.
+- `readonly` reference semantics.
+- Constructor chaining.
+- DIP and testability reasoning.
+- Core explicit-interface usage.
+
+### Revision queue
+1. **High priority:** method hiding vs overriding, virtual slots, compile-time reference type vs runtime dispatch.
+2. Abstract class vs interface vs composition when shared behavior and a common contract coexist.
+3. RetryPolicy (configuration) vs RetryHandler (execution mechanism).
+4. Quick recall: explicit interface implementation and ISP.
+
+### Next session
+Short targeted revision on items 1–3, then continue to Day 4. Avoid repeating the full Day 3 syllabus.
