@@ -58,6 +58,24 @@ deployments, force pushes, history rewrites, or changing PR state. Do not launch
 subagents unless explicitly requested. Surface authentication or publication
 failures; never claim synchronization based only on a local save.
 
+## SWE readiness and book coverage - strengthened November 1, 2026
+
+For SWE sessions, also read `study-plan/swe-interview-readiness-contract.md`,
+`study-plan/book-coverage.md`, `study-plan/book-coverage.csv`, and
+`assessments/swe-interview-bank.md`. Keep required independent runnable
+implementations, real DBMS experiments, weekly mixed rounds, critical-correctness
+gates, and delayed retests. Pseudocode in a timed interview is not proof that an
+independent implementation was executed. Use bounded recall across past strong
+and weak topics; continue +60/+90-day maintenance after stable delayed recall.
+
+Teach from the supplied OSTEP 0.90 and semaphore-book 2.2.2 inventories, selected
+DBMS seventh-edition references and the existing OOP reference with C# supplements.
+Reconcile substantive subsection coverage before marking book rows assessed or
+retained. Do not copy the PDFs/full book text into the repo, fabricate unavailable
+Java edition chapter numbers, or claim interview-core completion means full-book
+completion. Keep extension units and unresolved artifacts visible. Preserve the
+current Day 4 unanswered generics prompt and independent AI/ML progress.
+
 ## Separate AI/ML track - authorized November 1, 2026
 
 The learner explicitly requested a day-by-day AI/ML plan, assessments, independent
@@ -74,6 +92,11 @@ Use `scripts/ai-study.ps1` for the AI tracker. Its weekly CSV and source index
 generate the schedule and assessment bank; its JSON state generates the progress
 views. Preserve actual attempts, corrections, failed reviews, and exact next tasks.
 Run the tracker validation and behavioral tests after tooling changes.
+
+On paper-studio weeks, use `study-plan/ai-ml-research-paper-plan.md` and the
+paper embedded in the active Day 5 unit. Let the learner identify claims before
+teaching the interpretation. Require the assigned artifact, limitations, and an
+oral defense; do not mark a linked paper read merely because its abstract was shown.
 
 The learner also explicitly authorized publishing this AI/ML plan and genuine
 current-state/session updates. That is not blanket permission to commit unrelated

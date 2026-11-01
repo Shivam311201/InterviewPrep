@@ -2,6 +2,30 @@
 
 ## Continuation index — 1 November 2026
 
+### Plan review, version 1.2
+
+The learner requested an interview-readiness audit, implementation-based OOP/OS/
+DBMS questions, rigorous LLD/HLD assessments, and continued recall of old topics.
+They also supplied OSTEP and The Little Book of Semaphores and asked for
+book-backed OOP/DBMS coverage using the existing references.
+
+The supplied OS contents were inspected locally: OSTEP 0.90 (50 chapters) and
+semaphore book 2.2.2 (nine chapters plus appendices). DBMS uses the selected
+Database System Concepts seventh edition's author chapter inventory; the old
+Java reference remains thematic because its exact edition/contents are unavailable.
+Modern C# semantics use official supplements rather than assumed Java equivalence.
+
+The [readiness contract](study-plan/swe-interview-readiness-contract.md),
+[book coverage](study-plan/book-coverage.md), ledger, and
+[assessment bank](assessments/swe-interview-bank.md) add runnable labs, real SQL/
+isolation/plan experiments, mixed weekly rounds, evidence gates, and ongoing
+delayed revision. Full-book extensions are explicit; 16 weeks is not a promise
+to master every textbook at 10–12 hours/week.
+
+**No new learner answers, grades, completed labs, or recall results were produced
+by this plan review.** Day 4's generics prompt and the historical scorecard remain
+unchanged. The independent AI/ML track is not replaced or credited as SWE evidence.
+
 This file preserves the earlier records below. Continue from
 [current state](progress/current-state.md), not an older “next session” paragraph.
 

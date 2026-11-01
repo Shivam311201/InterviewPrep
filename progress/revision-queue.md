@@ -21,9 +21,21 @@ Preserve old scorecard evidence and add a dated outcome after each actual attemp
 
 ## Review result format
 
+Use the [readiness contract](../study-plan/swe-interview-readiness-contract.md):
+2–4 due prompts per session, one weak and one previously strong item where
+possible, with weekly mixed old-topic sampling after those topics are taught.
+Resume an existing unanswered active prompt first when appropriate, then recall.
+Do not reveal solutions before an attempt or turn missed dates into an unbounded quiz.
+
 Record date, prompt, actual learner answer, score and denominator, correction,
 follow-up result, evidence link, and next target. Do not advance dates merely
 because the calendar passed. Preserve previous wrong answers.
+
+An incorrect or hint-dependent attempt triggers a recorded repair and fresh
++1/+4-day checks from that attempt, without deleting earlier history. After stable
+delayed recall, schedule +60/+90-day maintenance. Continue core-subject recall
+during book extensions and independent tracks. The existing dated targets below
+are not newly marked reviewed by this planning update.
 
 ## Implementation follow-through
 

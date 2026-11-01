@@ -8,6 +8,9 @@
   "active_day": 4,
   "schedule": "study-plan/16-week-daily-schedule.md",
   "roadmap": "study-plan/16-week-swe-interview-roadmap.md",
+  "readiness_contract": "study-plan/swe-interview-readiness-contract.md",
+  "book_coverage": "study-plan/book-coverage.csv",
+  "assessment_bank": "assessments/swe-interview-bank.md",
   "revision_queue": "progress/revision-queue.md",
   "publication": {
     "scope": "InterviewPrep",

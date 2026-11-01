@@ -1,5 +1,5 @@
 # Complete SWE Interview Preparation Plan
-**Plan version:** 1.1
+**Plan version:** 1.2
 **Agreed:** 24 October 2026  
 **Duration:** 16 weeks  
 **Weekly effort:** 10–12 hours  
@@ -21,6 +21,15 @@ study-state commits/pushes in this repository; verify the remote after each upda
 ---
 
 **Day-by-day execution schedule:** See [16-week daily schedule](./16-week-daily-schedule.md) for the concrete syllabus, practice, deliverable, and completion check for each study day. Use this alongside the weekly roadmap; the daily checklist is not optional merely because a session runs long.
+
+**Interview-readiness upgrade — 1 November 2026:** The
+[implementation/assessment/recall contract](swe-interview-readiness-contract.md)
+defines runnable labs, weekly mixed rounds, readiness gates, and delayed retests.
+The [book contract](book-coverage.md) and [coverage ledger](book-coverage.csv)
+track all supplied OS chapters/topic groups and selected DBMS chapters; full-book
+extension work is explicit, not silently omitted. Use the
+[prompt bank](../assessments/swe-interview-bank.md) plus variants for every topic.
+Keep the Day 4 unanswered exercise and all historical mastery evidence unchanged.
 
 ## 1. Goals, constraints, and learning contract
 
@@ -62,14 +71,19 @@ Target 10–12 hours across six days. The following is a weekly allocation templ
 
 | Session type | Approx. weekly time | Purpose |
 |---|---:|---|
-| First-principles concepts | 2 h | Build the mental model; definitions only as a starting point |
-| Worked examples / code traces | 2 h | Step through execution, memory, data flow, or system behavior |
-| Active recall and oral grilling | 1.5 h | Answer questions before seeing explanations; include tricky follow-ups |
-| Practical work | 2 h | Small implementations, experiments, queries, or debugging |
-| Assignment / design exercise | 2 h | LLD, HLD, or deeper subject-specific work |
-| Assessment and revision | 1.5–2 h | Timed quiz, mistake log, spaced repetition, checkpoint |
+| First-principles concepts and worked traces | 3 h | Explain mechanisms; trace code, SQL, OS and data flows |
+| Implementation and assignment work | 3 h | Runnable C#/OS exercises, real SQL experiments, LLD/HLD critical components |
+| Interview drill | 1 h | Explain why, debug, compare, extend, and defend assumptions |
+| Distributed recall | 1 h | Short due checks across sessions plus old-topic variants |
+| Timed assessment and retrospective | 2 h | Independent practical task, mixed questions, corrections, delayed-retest plan |
+| Optional budget within 12 h | Up to 2 h | Remaining artifacts, gaps, or book-extension depth |
 
 If a week has an assessment or a large design assignment, adjust the allocation while keeping the weekly total near 10–12 hours.
+
+The 16-week budget is 160–192 hours, not guaranteed calendar completion or
+interview mastery. Separate AI/ML and DSA effort is not included. Reuse components
+between labs; split large study units across sessions. At phase gates, revise the
+calendar based on evidence and retain full-book extensions rather than deleting scope.
 
 ### Six-day pattern
 - **Day 1 — Primary concept:** new material, first-principles explanation, worked example.
@@ -105,6 +119,12 @@ A 15/15 is not required for every microtopic. Use a relevant denominator for nar
 ### Advancement criteria
 Move forward when the learner can explain the essentials and solve the planned exercise. If a core concept remains weak, continue the roadmap but add a targeted remediation block and keep the gap visible. Avoid getting trapped in endless perfection on one subject.
 
+For substantial rounds, use the readiness contract's provisional **12/15 gate,
+every dimension at least 2, and no unresolved correctness-critical flaw**. This is
+our coaching threshold, not an employer standard. Independent runnable/SQL
+evidence and an unseen delayed retest are required; a good oral score cannot
+replace a missing implementation. Preserve narrow assessment denominators.
+
 ### Spaced repetition
 Use reviews approximately on **Day 1, Day 2, Day 4, Day 8, Day 15, and Day 31** after learning, adapting to results. Incorrect answers, lucky guesses, and correct answers with poor reasoning all trigger follow-ups. Track:
 - Question/prompt
@@ -112,6 +132,11 @@ Use reviews approximately on **Day 1, Day 2, Day 4, Day 8, Day 15, and Day 31** 
 - Correct answer and reasoning
 - Error type (knowledge gap, misconception, application, edge case, communication)
 - Revisit date/status
+
+Attempt 2–4 bounded due prompts each session; include strong older topics and
+weak items. Weekly rounds sample earlier topics once taught. After stable delayed
+recall, add +60/+90-day maintenance. Failed or hint-dependent recall produces a
+recorded repair and fresh +1/+4-day check without erasing the original mistake.
 
 ### Required repository updates
 At the end of every session, update as relevant:
@@ -132,9 +157,10 @@ Do not invent a transcript for unavailable historical messages. Clearly label su
 Books provide conceptual foundations; official docs establish language/runtime/API specifics; interview resources provide practice framing. The learner should not need to buy the books—the assistant teaches the content directly.
 
 ### Core references
-- **Operating systems:** Andrew S. Tanenbaum, *Modern Operating Systems*, 4th edition (the learner referred to it as Tannenbaum, PHI). Use **OSTEP — Operating Systems: Three Easy Pieces** as a complementary explanation and exercise source where it covers the same topic; flag any coverage differences rather than assuming the two are identical.
-- **Database systems:** Abraham Silberschatz, Henry F. Korth, S. Sudarshan, *Database System Concepts*. Use it for relational model, SQL, transactions, recovery, indexing, and system internals.
+- **Operating systems:** use the supplied **Operating Systems: Three Easy Pieces**, version 0.90, as the primary OS spine and **The Little Book of Semaphores**, version 2.2.2, as the primary synchronization/puzzle reference. Their locally inspected inventories are tracked in the book ledger. Preserve Tanenbaum's *Modern Operating Systems*, 4th edition, as the existing supplement; do not claim an uninspected edition's chapter checklist is complete.
+- **Database systems:** Abraham Silberschatz, Henry F. Korth, S. Sudarshan, *Database System Concepts*, seventh edition, selected from the existing reference. Use the verified author chapter resources for theory and PostgreSQL for real SQL, plan, transaction and recovery experiments. The author index's PostgreSQL case-study slot has no posted slides; use current official engine docs, not an invented chapter download.
 - **Programming/OOP background:** Herbert Schildt / Patrick Naughton, *The Complete Reference: Java 2* (TMH) was named as a reference. It is a Java-era book, so use it for general programming/OOP ideas only where applicable; it is not an authority for modern C# or current .NET behavior.
+- **OOP completeness boundary:** exact edition/contents of the Java reference are unavailable. Track its substantive OOP themes without invented chapter numbers, and explicitly supplement modern C# features. See the book contract for the verified inventory versus thematic-reference distinction.
 - **C# and .NET:** Microsoft Learn and official .NET documentation for language semantics, CLR/GC, collections, exceptions, tasks/async, threading, disposal, and diagnostics. Prefer version-appropriate official docs for runtime-specific behavior.
 - **Networking:** use established networking textbook material for layered models, IP, routing, TCP/UDP, DNS, TLS, HTTP, and congestion/reliability; supplement with official protocol specifications and vendor docs when a precise behavior matters.
 - **LLD/HLD:** use interview-oriented design material such as Hello Interview as supplemental practice, alongside fundamental design principles, official service documentation, and explicit trade-off analysis.
@@ -220,6 +246,8 @@ The plan intentionally interleaves topics every week. The listed bullets are min
 - Diagnose a deadlock/race from a small snippet.
 - Write SQL for a small schema and explain NULL behavior.
 - Explain request path from a client to a server at a high level.
+- Start the reusable synchronization lab with controlled interleavings; use the
+  semaphore book's primitives/puzzles before looking at hints.
 
 **Checkpoint:** critique an overengineered design, identify SOLID issues without turning principles into dogma, and reason about a simple race.
 
@@ -238,6 +266,10 @@ The plan intentionally interleaves topics every week. The listed bullets are min
 
 **Assignment:** design and implement a parking lot or library-management LLD. Include requirements, class diagram, APIs, object responsibilities, error cases, tests, and one justified pattern.
 
+The independent core must compile and pass relevant tests; pseudocode in the mock
+does not replace that artifact. Add a 15–20 minute HLD mini-drill using the same
+service to practice requirements, a capacity estimate, data ownership and one failure.
+
 **Checkpoint:** 45–60 minute LLD walkthrough plus code review. Explain cancellation, concurrency, and how the design changes when requirements change.
 
 ---
@@ -248,9 +280,14 @@ The plan intentionally interleaves topics every week. The listed bullets are min
 **Coverage**
 - Process address space, code/data/heap/stack at conceptual level; virtual vs. physical memory.
 - Address translation, paging, page tables, TLB, page faults, locality, working sets.
+- Segmentation/fragmentation, allocation/free-space strategies, page-table-size
+  trade-offs, swapping, FIFO/LRU/clock policies and thrashing.
 - User/kernel mode, system calls, context switches, scheduling goals and algorithms.
 - Threads, synchronization, atomicity, race conditions, deadlocks, starvation, priority inversion.
 - File descriptors/handles and OS resource lifetime; processes and I/O.
+- Interrupts/DMA/drivers, disk latency/scheduling, files/directories/inodes,
+  buffering, storage layouts, RAID, journaling, crash consistency and integrity;
+  deeper filesystem and historical case studies have explicit book-extension units.
 - C# connection: threads, locks, ThreadPool, Task scheduling at a conceptual level.
 - DBMS connection: why transactions need concurrency control; locks and deadlocks.
 - CN connection: socket and connection resource lifetime.
@@ -260,17 +297,24 @@ The plan intentionally interleaves topics every week. The listed bullets are min
 - Diagnose race and deadlock snippets.
 - Explain context-switch cost and why more threads can hurt throughput.
 - Quiz on process/thread, virtual memory, paging, scheduling, synchronization.
+- Implement O1 scheduler and O2 translation/replacement simulators; extend O3
+  bounded-buffer/barrier synchronization. Begin O4 file/journal recovery evidence.
 
-**Checkpoint:** answer a set of OS oral questions and reason through a concurrent counter.
+**Checkpoint:** OS oral/trace round plus independent implementation evidence;
+explain invariants, scheduling metrics, wait predicates and recovery assumptions.
 
 ### Week 6 — DBMS schema design, indexes, transactions, and recovery
 **Coverage**
 - Relational model, keys, constraints, relational algebra intuition.
 - SQL joins, aggregation, subqueries, CTEs, NULL, duplicates, query semantics.
+- ER modeling, views, window queries and application/authorization boundaries;
+  advanced SQL and specialty chapters remain in the explicit book ledger.
 - Functional dependencies, normalization (1NF/2NF/3NF/BCNF at interview-relevant depth), anomalies and denormalization trade-offs.
 - Indexes: B-tree/B+ tree concepts, clustered/nonclustered concepts where relevant, composite indexes, selectivity, leftmost-prefix intuition, covering indexes, write overhead.
 - Query execution plan basics: scan vs. seek, cardinality estimates, join algorithms (nested-loop, hash, sort-merge) at a conceptual level.
 - Transactions, ACID, isolation levels, dirty/nonrepeatable/phantom reads, MVCC/locking intuition.
+- Lost-update/write-skew/serialization scenarios, optimistic validation versus
+  pessimistic locking, deadlock handling, and bounded transaction retry.
 - Logging, WAL, crash recovery, checkpoints, backups vs. replication.
 - OS connection: locks, I/O, memory, fsync/durability; HLD connection: schema and access patterns.
 
@@ -279,8 +323,12 @@ The plan intentionally interleaves topics every week. The listed bullets are min
 - Predict index usefulness for query patterns.
 - Explain a transaction anomaly with a two-session schedule.
 - Read a simplified query plan and propose an improvement.
+- Execute D1 schema/SQL fixtures, D2 real plans/index experiments and D3
+  two-session anomalies on a named/versioned engine; begin D4 rollback/durability
+  evidence. Distinguish standard isolation guarantees from the engine's behavior.
 
-**Checkpoint:** SQL practical plus oral drill on isolation, index trade-offs, and recovery.
+**Checkpoint:** executed SQL practical, real-plan interpretation, two-session
+isolation/failure evidence, and an oral recovery/index trade-off drill.
 
 ### Week 7 — Computer networks: from packet to secure HTTP request
 **Coverage**
@@ -379,7 +427,7 @@ The plan intentionally interleaves topics every week. The listed bullets are min
 - Thread safety and resource lifetime in designs.
 - Refactor a design when new requirements arrive; discuss trade-offs and overengineering.
 
-**Assignment:** a second LLD problem, selected by the assistant based on learner performance (examples: rate limiter, elevator, notification system, in-memory cache, task scheduler). Require working code or detailed pseudocode, tests, diagrams, and trade-off explanation.
+**Assignment:** a second distinct LLD problem, selected by the assistant based on learner performance (examples: rate limiter, elevator, notification system, in-memory cache, task scheduler). Require independently implemented runnable C# core, tests, diagrams, and trade-off explanation. Detailed pseudocode is allowed during a timed walkthrough, not as implementation-completion evidence.
 
 **Checkpoint:** timed 60-minute LLD mock; score on requirements, modeling, code quality, edge cases, and communication.
 
@@ -459,6 +507,8 @@ The plan intentionally interleaves topics every week. The listed bullets are min
 - Final scorecards by subject, with evidence rather than unsupported claims.
 - LLD/HLD assignment artifacts and mock-interview feedback.
 - Next 30-day spaced-revision queue.
+- Runnable OOP/OS/DBMS/LLD lab evidence, independently graded unseen variants,
+  delayed retests, and a book-ledger closeout with all remaining extension rows.
 - Decision on whether to begin AI/agentic interview preparation as a separate later phase; it remains outside this 16-week plan unless explicitly re-scoped.
 
 **Final success criteria**
@@ -504,6 +554,12 @@ Do not deliver the entire roadmap as a one-time lecture. Teach incrementally, ve
 
 ## 7. Assessment bank and question-generation policy
 
+Use [swe-interview-bank.md](../assessments/swe-interview-bank.md) as a prompts-only
+starting set and the [readiness contract](swe-interview-readiness-contract.md) for
+the weekly practical/mixed round, rubric, phase gates and unseen retests. Generate
+additional variants for every syllabus and book-ledger topic; the bank itself
+does not establish completion.
+
 Every topic should generate multiple question types:
 - Definition and mental model
 - Trace this code / query / protocol / diagram
@@ -538,15 +594,13 @@ An agent continuing this plan should:
 
 ## 9. Current starting point
 
-As of 24 October 2026, the learner has begun C# object references, managed memory, GC roots, Dispose vs. GC, and Gen 0/1/2. Current notes and question logs live under:
-- `notes/csharp-oop/memory-and-gc.md`
-- `assessments/quizzes/memory-gc-quiz.md`
-- `session-log.md`
-- `progress/scorecard.md`
+Use [current-state.md](../progress/current-state.md) and
+`progress/daily-state.json`, not a historical “next question” from this roadmap.
+As of 1 November 2026, the active study unit is **Day 4**, awaiting the learner's
+`Box<int>` versus `Box<string>` exercise answer. Resume that prompt before
+constraints/CLR internals, then rotate due Day 3 and Day 1/2 gaps through recall.
 
-**Immediate next steps**
-1. Ask the still-unanswered GC question: why must a Gen 0 collection account for a reachable Gen 2 Parent's reference to a Gen 0 Child? Require both transitive reachability and older-to-younger reference tracking.
-2. Review write barrier/card table with a new scenario.
-3. Cover Dispose/finalization/SafeHandle and stack/JIT-liveness nuances.
-4. Resume the OS question already asked: **“What is the difference between a program and a process?”**
-5. Keep interleaving DBMS and CN topics during the week, rather than studying only one subject for an entire week.
+The earlier memory/GC and OS records remain valid historical evidence in the
+notes, quizzes, session log and scorecard. This plan review adds no new learner
+answers, implementation results, grades, or completion credits. Separate AI/ML
+preparation remains independent; it does not replace the SWE syllabus.

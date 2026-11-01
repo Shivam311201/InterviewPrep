@@ -11,6 +11,9 @@ Structured preparation notes, quizzes, assessments, revision queue, and scorecar
 - `progress/daily-state.json` — structured state for continuing assistants; update alongside the human-readable progress files.
 
 - **[Complete 16-week SWE interview roadmap](study-plan/16-week-swe-interview-roadmap.md)** — goals, weekly hours and six-day rhythm, detailed week-by-week syllabus, textbook and official-doc reference strategy, assignments, checkpoints, assessment rubric, spaced repetition, repo-maintenance contract, and instructions for a continuing agent.
+- **[Interview-readiness contract](study-plan/swe-interview-readiness-contract.md)** — runnable OS/OOP/DBMS/LLD labs, HLD drills, weekly mixed assessments, readiness gates, and ongoing recall.
+- **[Book coverage](study-plan/book-coverage.md)** and `study-plan/book-coverage.csv` — supplied OS books, selected DBMS edition, OOP reference boundaries, and explicit full-book extensions.
+- **[SWE assessment prompts](assessments/swe-interview-bank.md)** — learner-facing questions; actual answers and scores remain in dated records.
 
 ## Current learning record
 - `notes/csharp-oop/memory-and-gc.md` — detailed notes on C# references, stack/heap, reachability, GC roots, disposal, and generational GC.
@@ -32,6 +35,7 @@ remain intact; AI/ML has its own day numbering, evidence, assessments, and revie
 
 - [Learning contract and assessment rubric](study-plan/ai-ml-learning-contract.md)
 - [420-unit day-by-day schedule](study-plan/ai-ml-daily-schedule.md)
+- [Progressive research-paper studio](study-plan/ai-ml-research-paper-plan.md)
 - [Current AI/ML state](progress/ai-ml/current-state.md)
 - [Daily progress](progress/ai-ml/daily-progress.md)
 - [Revision queue](progress/ai-ml/revision-queue.md)

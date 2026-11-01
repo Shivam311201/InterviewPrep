@@ -75,10 +75,19 @@ into Day 3 and started generics on Day 4. The revised first week now reflects th
 Day 3 object model/OOP; Day 4 generics/delegates/events/exceptions/collections/LINQ;
 Day 5 GC and resource-lifetime consolidation; Day 6 assessment and missing outputs.
 
-Days 8–112 keep the original schedule. Early exposure to their topics does not
+Days 8–112 keep their original numbering and broad sequence, with implementation,
+assessment and book-coverage requirements strengthened on 1 November 2026.
+Early exposure to their topics does not
 complete them: later dispatch/equality, generics/variance, testing, OS, and design
 days still require their own outputs and checkpoints. DSA remains a separate track;
-AI/agentic topics remain deferred. The weekly roadmap and six-study-day rhythm stand.
+AI/agentic topics remain outside this SWE track; the independently authorized AI/ML
+plan is preserved. The weekly roadmap and six-study-day rhythm stand.
+
+The [readiness contract](../study-plan/swe-interview-readiness-contract.md),
+[book ledger](../study-plan/book-coverage.csv), and
+[assessment bank](../assessments/swe-interview-bank.md) now govern practical
+evidence, weekly mixed rounds and delayed retests. This review grades no new
+answers and advances no day or mastery status. Full-book extensions remain explicit.
 
 ## Evidence and save boundary
 

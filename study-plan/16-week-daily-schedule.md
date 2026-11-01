@@ -14,6 +14,13 @@ does not automatically complete later days or remove their remaining syllabus.
 
 ## How to use this schedule
 
+Use the [readiness contract](swe-interview-readiness-contract.md) for required
+runnable labs, mixed weekly assessments, gates and recall. The
+[book ledger](book-coverage.csv) and [book contract](book-coverage.md) provide
+chapter/topic accountability, including required extensions beyond the interview
+core. The [prompt bank](../assessments/swe-interview-bank.md) is a starting set,
+not proof that every topic has been assessed.
+
 - Each day has a **primary syllabus**, a **required output**, and a **completion check**. Do not count a topic as complete merely because it was explained.
 - Learner questions are welcome, including off-plan questions. Answer them properly. Then return to the exact unfinished daily checklist. Mark a detour as required prerequisite, useful extra, or deferred follow-up.
 - Do not let a detour silently replace the day's planned topics. If it exposes a prerequisite gap, teach the prerequisite, then resume.
@@ -84,6 +91,8 @@ Times are flexible. Completion is determined by evidence, not a timer.
 - **Practice:** code-tracing quiz, one small implementation task, explain GC roots and a disposal scenario aloud.
 - **Required output:** quiz results, topic score evidence, and revision dates.
 - **Completion check:** demonstrate the Week 1 checkpoint from the roadmap. Record gaps without blocking the next week's planned syllabus.
+- **Assessment gate:** independent C1/C2 trace or implementation check plus 4–6
+  mixed prompts and a failure follow-up; record hints, tests and delayed retests.
 - **Carry-forward check:** verify remaining Day 1/2 traces/comparison table,
   practical compiler/runtime explanations, nullable/`in`/boxing checks, and Day 3
   C# object-reference/process-at-a-glance artifacts. Keep session completion
@@ -131,6 +140,8 @@ Optional light flash recall only. No new syllabus.
 - **Practice:** design a small type hierarchy, debug an equality contract, answer overload/override questions, sketch a schema.
 - **Required output:** assessment, corrections, updated scorecard.
 - **Completion check:** explain each correction and identify one remaining gap per subject.
+- **Assessment gate:** C3 dispatch/equality kata with executed checks, new
+  OOP/DBMS/OS variants and earlier-topic recall under the readiness rubric.
 
 ### Day 14 — Rest
 Optional spaced repetition only.
@@ -161,6 +172,8 @@ Optional spaced repetition only.
 - **Practice:** diagnose a shared-counter race and a lock-order deadlock.
 - **Required output:** corrected code or pseudocode plus interleaving trace.
 - **Completion check:** identify the unsynchronized shared state and explain why the fix works.
+- **Book/implementation:** begin O3 using OSTEP concurrency and semaphore-book
+  primitives. Write a runnable synchronized variant and a controlled bad interleaving.
 
 ### Day 19 — Interleaved DBMS: SQL foundations
 - **Primary syllabus:** review testability, immutable state, DI lifetime and captive-dependency risks.
@@ -168,12 +181,16 @@ Optional spaced repetition only.
 - **Practice:** write queries against a small schema; explain NULL and duplicate behavior.
 - **Required output:** query set with expected results and explanations.
 - **Completion check:** produce correct joins/aggregations and explain why NULL comparisons need care.
+- **Implementation:** start D1 with actual schema/seed/query execution, expected
+  result checks and invalid-input/constraint cases.
 
 ### Day 20 — Week 3 assessment and integration
 - **Syllabus:** SOLID critique, testing, concurrency, SQL, network-layer recall.
 - **Practice:** refactor one example, write tests, diagnose one race, write SQL, explain a request path.
 - **Required output:** assessment and mistake categories.
 - **Completion check:** demonstrate the Week 3 checkpoint and schedule targeted reviews.
+- **Assessment gate:** independently modify C4/O3 or D1, run relevant checks,
+  then answer mixed current/earlier-topic prompts and one design/failure extension.
 
 ### Day 21 — Rest
 Optional spaced repetition only.
@@ -199,6 +216,8 @@ Optional spaced repetition only.
 - **CN:** TCP vs UDP and basic HTTP request/response.
 - **Required output:** comparison notes and one short diagram per interleaved topic.
 - **Completion check:** give concise, accurate first-pass explanations; list questions for the later dedicated subject weeks.
+- **Early HLD:** H0 mini-drill using the existing service: requirements, one
+  estimate with units, data ownership and one failure; no new full application.
 
 ### Day 25 — LLD assignment: requirements and model
 - **Syllabus:** choose parking lot or library management; clarify requirements, actors, use cases, invariants, domain model, APIs, core flows.
@@ -209,13 +228,16 @@ Optional spaced repetition only.
 ### Day 26 — LLD implementation and testing
 - **Syllabus:** implement core flows, error handling, tests, one justified pattern, extensibility boundaries.
 - **Practice:** code the design; add negative and boundary tests.
-- **Required output:** runnable code or detailed pseudocode plus tests.
+- **Required output:** independently implemented runnable C# core and tests;
+  detailed pseudocode alone does not satisfy the implementation requirement.
 - **Completion check:** demonstrate main flow and explain how tests cover important invariants.
 
 ### Day 27 — LLD mock and Phase I review
 - **Syllabus:** 45–60 minute LLD walkthrough; async/concurrency follow-ups; C#/OOP review; short OS/DBMS/CN recall.
 - **Required output:** scored review, open gaps, and next-week priorities.
 - **Completion check:** explain the design under a changed requirement and record what must be revisited in Weeks 5–7.
+- **Assessment gate:** L1 implementation evidence plus timed unseen extension,
+  rubric and phase/backlog review; retain unverified artifacts as gaps.
 
 ### Day 28 — Rest
 Optional spaced repetition only.
@@ -231,36 +253,53 @@ Optional spaced repetition only.
 - **Practice:** trace a system call and draw process/thread state transitions.
 - **Required output:** annotated process model.
 - **Completion check:** explain the difference between mode switch and context switch, and when each may occur.
+- **Book anchor:** OSTEP 2–6; trace process APIs and record whether native
+  POSIX code or a portable model was actually executed.
 
 ### Day 30 — Scheduling algorithms and metrics
 - **Syllabus:** scheduling goals; FCFS, SJF, SRTF, Round Robin, priority scheduling; response, waiting, turnaround, throughput, fairness.
 - **Practice:** solve timeline problems and calculate metrics step by step.
 - **Required output:** checked scheduling worksheet.
 - **Completion check:** independently calculate every metric and verify averages against the schedule.
+- **Implementation O1:** runnable scheduler with arrivals/ties/idle intervals;
+  predict before comparing book simulator results. Include MLFQ basics; proportional
+  share/multicore depth stays visible in BX-OS-1.
 
 ### Day 31 — Virtual memory and address translation
 - **Syllabus:** virtual vs physical address, paging, page tables, TLB, page faults, locality, working set.
 - **Practice:** trace a conceptual address translation and TLB hit/miss path.
 - **Required output:** address-translation diagram and quiz.
 - **Completion check:** explain each step without treating virtual addresses as physical RAM locations.
+- **Book/implementation O2:** OSTEP 13–22; allocation/fragmentation, segmentation,
+  page-table sizes, swapping, FIFO/LRU/clock and thrashing. Implement translation
+  and replacement traces; VAX depth remains BX-OS-1.
 
 ### Day 32 — Synchronization and deadlocks
 - **Syllabus:** race conditions, atomicity, mutex/monitor, semaphore, condition waiting, deadlock's four conditions, prevention/avoidance/detection, starvation, priority inversion.
 - **Practice:** analyze lock interleavings and safe/unsafe states; explain why safe state differs from “nobody is waiting.”
 - **Required output:** corrected traces and comparison table.
 - **Completion check:** distinguish the major synchronization primitives and reason through a deadlock scenario.
+- **Book/implementation O3:** OSTEP 26–32 and the semaphore book's foundations,
+  rendezvous/mutex/multiplex/barrier, producer-consumer/readers-writers/philosophers.
+  Solve before hints; test bounded-buffer/reusable-phase behavior and state fairness
+  assumptions. Remaining named puzzle variants have explicit BX-SYNC units.
 
 ### Day 33 — OS resources, I/O, and C# connections
 - **Syllabus:** file descriptors/handles, resource lifetime, I/O, thread pools and Task scheduling conceptually, how excess threads affect performance.
 - **Practice:** diagnose a resource leak and explain a concurrent counter implementation.
 - **Required output:** failure-analysis note linking OS behavior to C#.
 - **Completion check:** connect OS scheduling/memory/resource concepts to application behavior.
+- **Book/implementation O4:** devices/interrupts/DMA, disk scheduling, file
+  APIs/directories/links/inodes and buffering; begin a file/journal recovery model.
+  Filesystem locality/log-structured depth remains BX-OS-2.
 
 ### Day 34 — OS oral assessment and weak-area repair
 - **Syllabus:** process/thread, scheduling, virtual memory, synchronization, deadlocks, resource lifetime.
 - **Practice:** oral drill plus calculations and a concurrency exercise; review early OS exposure from Weeks 1–4.
 - **Required output:** OS scorecard, corrected mistakes, spaced-revision queue.
 - **Completion check:** demonstrate the Week 5 checkpoint. Do not extend OS indefinitely; carry unresolved gaps forward as scheduled reviews.
+- **Assessment gate:** independent O1/O2/O3 variant with run output, oral/trace
+  questions and older-topic recall; no OS-ready claim from oral answers alone.
 
 ### Day 35 — Rest
 Optional spaced repetition only.
@@ -272,12 +311,16 @@ Optional spaced repetition only.
 - **Practice:** write queries for a business schema and predict results.
 - **Required output:** schema and query worksheet.
 - **Completion check:** explain query semantics and produce correct results for boundary cases.
+- **Implementation D1:** use a real named/versioned engine, ER/schema fixtures,
+  NULL/duplicate/unmatched cases, CTE/window queries and expected-result assertions.
 
 ### Day 37 — Functional dependencies and normalization
 - **Syllabus:** functional dependencies, update/insert/delete anomalies, 1NF/2NF/3NF/BCNF at interview depth, denormalization trade-offs.
 - **Practice:** normalize a flawed schema and explain what each decomposition fixes.
 - **Required output:** normalized schema with rationale.
 - **Completion check:** identify anomalies and defend the chosen schema.
+- **Book anchor:** DBSC seventh edition 6–7; keys, lossless/dependency-preserving
+  decomposition and relational-design trade-offs, with D1 schema validation.
 
 ### Day 38 — Interleaved OS: storage and durability
 - **Primary syllabus:** indexes, B-tree/B+ tree concepts, composite indexes, selectivity, covering indexes, write overhead.
@@ -285,24 +328,35 @@ Optional spaced repetition only.
 - **Practice:** choose indexes for sample query patterns.
 - **Required output:** index recommendation table with read/write trade-offs.
 - **Completion check:** explain why indexes accelerate some reads but add storage and write cost.
+- **Book/implementation:** OSTEP storage/journaling/integrity plus DBSC 12–14;
+  records/pages/buffers, RAID and flush ordering. Start D2 indexes on a skewed fixture,
+  continue O4, and use H0 for one capacity/data-ownership trade-off.
 
 ### Day 39 — Query execution and plans
 - **Syllabus:** scan vs seek, cardinality estimates, nested-loop/hash/sort-merge joins, index use, query-plan basics.
 - **Practice:** inspect simplified plans and improve a query/index choice.
 - **Required output:** plan annotations and proposed optimization.
 - **Completion check:** connect the proposed change to access pattern and expected work.
+- **Implementation D2:** execute real EXPLAIN/ANALYZE, compare estimated/actual
+  rows and work before/after; do not promise a specific speedup from adding an index.
 
 ### Day 40 — Transactions, isolation, and concurrency control
 - **Syllabus:** ACID, dirty/nonrepeatable/phantom reads, isolation levels, MVCC/locking, transaction schedules and deadlocks.
 - **Practice:** trace two concurrent sessions and identify anomalies.
 - **Required output:** transaction schedule worksheet.
 - **Completion check:** explain which guarantees an isolation level provides and what it costs.
+- **Implementation D3:** execute ordered two-session schedules, lost-update/
+  write-skew/serialization cases, atomic-update/optimistic/pessimistic alternatives,
+  deadlock and bounded retry. Separate engine semantics from the SQL-standard model.
 
 ### Day 41 — Recovery and DBMS assessment
 - **Syllabus:** WAL, logs, checkpoints, crash recovery, backups vs replication; OS connection; full DBMS review.
 - **Practice:** oral drill, SQL practical, index choice, isolation scenario.
 - **Required output:** DBMS scorecard and revision queue.
 - **Completion check:** explain how durability survives a crash and pass the planned SQL/oral checkpoint.
+- **Assessment gate:** D1/D2/D3 executed evidence and D4 rollback/recovery
+  timeline, independently answered SQL/plan/isolation variant, prior-topic recall;
+  reconcile DBSC 17–19 coverage and preserve remaining book extensions.
 
 ### Day 42 — Rest
 Optional spaced repetition only.
@@ -346,6 +400,8 @@ Optional spaced repetition only.
 - **Practice:** diagnose a latency scenario and complete a closed-book oral drill.
 - **Required output:** CN scorecard, corrections, revision queue.
 - **Completion check:** walk through a request's journey and identify likely bottlenecks from evidence.
+- **Assessment/phase gate:** mixed current/older prompts, a request/failure trace
+  and practical diagnosis; review phase backlog and actual calendar estimate.
 
 ### Day 49 — Rest
 Optional spaced repetition only.
@@ -367,6 +423,8 @@ Optional spaced repetition only.
 - **Practice:** design a retry policy and identify retry-storm risks.
 - **Required output:** retry policy and idempotency contract.
 - **Completion check:** defend retry limits and explain duplicate-side-effect prevention.
+- **Early HLD:** H0 mini-drill on the existing notification service with
+  retry/failure assumptions and a measurable capacity limit.
 
 ### Day 52 — Interleaved DBMS: outbox and consistency
 - **Primary syllabus:** transactional outbox, inbox/deduplication, DB + queue transaction boundary, failure windows.
@@ -374,6 +432,8 @@ Optional spaced repetition only.
 - **Practice:** trace crashes before/after database write and message publish.
 - **Required output:** sequence diagram of a duplicate-safe operation.
 - **Completion check:** explain which failures are covered and which need recovery/reconciliation.
+- **Implementation D4:** run atomic business/outbox writes, uniqueness and
+  repeated-delivery checks; record which side effects remain outside the transaction.
 
 ### Day 53 — Reliability patterns and graceful degradation
 - **Syllabus:** service discovery, load balancing, health checks, circuit breakers, bulkheads, load shedding, graceful shutdown.
@@ -391,6 +451,8 @@ Optional spaced repetition only.
 - **Syllabus:** queue consumer design with retries, DLQ, idempotency, poison-message handling; distributed-systems oral drill.
 - **Required output:** failure matrix, scorecard, review queue.
 - **Completion check:** defend behavior under duplicate delivery, lost response, crash, and partial outage.
+- **Assessment gate:** independently modify/test the D4 consumer's failure
+  path, then mixed reliability/earlier-topic prompts and delayed retests.
 
 ### Day 56 — Rest
 Optional spaced repetition only.
@@ -427,12 +489,16 @@ Optional spaced repetition only.
 - **Practice:** review an API for query amplification and pagination problems.
 - **Required output:** storage/API recommendation.
 - **Completion check:** defend data-store and pagination choices under scale.
+- **Implementation D2/C4:** keyset-pagination fixture with ties/concurrent
+  writes and an explicit bounded-work policy; connect results to storage semantics.
 
 ### Day 62 — Scaling assessment
 - **Syllabus:** cache, sharding, replication, consistency, backpressure, data-store choice.
 - **Practice:** design a scaled data path and handle 10x traffic.
 - **Required output:** assessment and prioritized gaps.
 - **Completion check:** compare two plausible approaches with explicit trade-offs.
+- **Assessment gate:** actual pagination/cache or concurrency exercise plus
+  mixed current/older-topic round; retain book case studies/extensions.
 
 ### Day 63 — Rest
 Optional spaced repetition only.
@@ -457,6 +523,8 @@ Optional spaced repetition only.
 - **Practice:** diagnose unbounded concurrency and thread/resource exhaustion.
 - **Required output:** bounded-worker design.
 - **Completion check:** explain why increasing concurrency can reduce system throughput.
+- **Implementation C4/O3:** execute cancellation, bounds and resource-release
+  checks; revisit semaphore progress/ownership and unsolved book variants.
 
 ### Day 67 — Outbox, saga, orchestration/choreography
 - **Syllabus:** DB+queue boundary, outbox/inbox, saga/compensation, long-running workflow state, correlation IDs.
@@ -475,6 +543,8 @@ Optional spaced repetition only.
 - **Practice:** specify deterministic IDs for storage, dispatch, and telemetry; simulate crashes at each boundary.
 - **Required output:** end-to-end design, failure matrix, scorecard.
 - **Completion check:** defend delivery semantics and recovery behavior.
+- **Assessment/phase gate:** D4 failure/replay evidence plus mixed round,
+  critical-correctness check and book/lab backlog review.
 
 ### Day 70 — Rest
 Optional spaced repetition only.
@@ -506,7 +576,7 @@ Optional spaced repetition only.
 - **Completion check:** explain what changed and why the design did not need unnecessary abstractions.
 
 ### Day 74 — LLD implementation
-- **Syllabus:** implement core flows in C# or provide detailed pseudocode if implementation is not appropriate; tests and error cases.
+- **Syllabus:** independently implement core flows in runnable C#; tests and error cases. Pseudocode is appropriate during a timed walkthrough, not as substitute assignment evidence.
 - **Practice:** deliver working code for the chosen problem.
 - **Required output:** code, tests, and brief design notes.
 - **Completion check:** demonstrate happy path, invalid input, and at least one failure/concurrency case.
@@ -521,6 +591,8 @@ Optional spaced repetition only.
 - **Syllabus:** 60-minute design walkthrough, then review requirements, modeling, code quality, edge cases, tests, and communication.
 - **Required output:** scored retrospective and next LLD gaps.
 - **Completion check:** prioritize improvements with evidence rather than vague self-assessment.
+- **Assessment gate:** L2 is distinct from L1 and has independently run core
+  tests; use an unseen changed requirement and delayed retest.
 
 ### Day 77 — Rest
 Optional spaced repetition only.
@@ -563,6 +635,8 @@ Optional spaced repetition only.
 - **Syllabus:** 45–60 minute structured walkthrough; requirements, estimates, API, data model, architecture, failures, trade-offs.
 - **Required output:** scored mock and prioritized gaps.
 - **Completion check:** avoid jumping to components before clarifying requirements.
+- **Assessment gate:** H1 estimates/APIs/data/failure reasoning, independent
+  questions and a changed constraint; use the five-dimension rubric.
 
 ### Day 84 — Rest
 Optional spaced repetition only.
@@ -605,6 +679,8 @@ Optional spaced repetition only.
 - **Syllabus:** evolve Week 12 design for regional failure, 10x traffic, degraded dependency, and bad deployment.
 - **Required output:** failure-mode review and scorecard.
 - **Completion check:** defend recovery behavior and identify remaining risks.
+- **Assessment/phase gate:** H2 failure and recovery critique, mixed earlier
+  subject questions, runnable-component evidence where relevant and backlog review.
 
 ### Day 91 — Rest
 Optional spaced repetition only.
@@ -647,6 +723,8 @@ Optional spaced repetition only.
 - **Syllabus:** search, feed/notification, ingestion, file/workflow patterns; review weak areas.
 - **Required output:** assessment and revision queue.
 - **Completion check:** explain freshness, write amplification, scale, and operational complexity trade-offs.
+- **Assessment gate:** two distinct H3 cases, unseen workload change and
+  old-topic recall; no credit for presenting the same memorized template twice.
 
 ### Day 98 — Rest
 Optional spaced repetition only.
@@ -687,6 +765,8 @@ Optional spaced repetition only.
 - **Syllabus:** 60-minute mock, follow-up questions, structured retrospective.
 - **Required output:** scorecard and prioritized gap list.
 - **Completion check:** identify three highest-impact gaps with concrete next actions.
+- **Assessment gate:** H4 plus locally tested critical component, cross-layer
+  diagnosis and independent mixed follow-ups; retain limitations of local experiments.
 
 ### Day 105 — Rest
 Optional spaced repetition only.
@@ -727,6 +807,9 @@ Optional spaced repetition only.
 - **Syllabus:** one full HLD mock; requirements, estimates, APIs, data model, architecture, failures, observability, trade-offs.
 - **Required output:** final subject scorecards, open gaps, question history, and next 30-day revision plan.
 - **Completion check:** demonstrate final success criteria from the roadmap. Decide whether to begin the separate AI/agentic phase only after reviewing evidence.
+- **Final readiness gate:** independent representative rounds, required
+  practical evidence and delayed retests by subject; close out the book ledger
+  honestly and continue required extension units and +60/+90-day recall.
 
 ### Day 112 — Rest
 Celebrate completion; no new syllabus.
@@ -741,10 +824,12 @@ Use this checklist for every study day:
 - [ ] Every listed syllabus item taught and clarified.
 - [ ] Learner questions answered; prerequisite gaps addressed.
 - [ ] Required exercise/implementation/diagram/query completed.
+- [ ] Required executable work actually run; command/version/results and important failure cases recorded.
 - [ ] Interview questions attempted and evaluated.
 - [ ] Mistakes and unresolved gaps recorded with revisit dates.
 - [ ] Notes/session log/scorecard updated as appropriate.
 - [ ] Next session's exact starting point recorded.
+- [ ] Relevant book sections/subtopics reconciled with lesson and assessment evidence.
 - [ ] Any unfinished item explicitly carried forward; nothing silently marked complete.
 
 ## Deviation policy
