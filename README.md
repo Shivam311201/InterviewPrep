@@ -24,3 +24,26 @@ At the end of each study session, update the relevant topic notes, complete ques
 Study-day numbers are curriculum positions, not calendar dates. Multiple sessions can belong to one day; missed calendar days do not complete or skip syllabus. Continue Day 4 from its unanswered generics exercise, with short targeted recall rather than restarting Days 1–3.
 
 Follow [AGENTS.md](AGENTS.md) for the continuation and end-of-session update contract. **Standing permission granted on 1 November 2026:** validate, commit, and push study records after each session in this repository, then verify the remote result. Local saves, commits, and remote publication remain distinct; never report local work as synchronized to GitHub.
+
+## AI/ML engineering and interview preparation - separate track
+
+Authorized November 1, 2026. The existing 16-week SWE plan and Day 4 resume point
+remain intact; AI/ML has its own day numbering, evidence, assessments, and reviews.
+
+- [Learning contract and assessment rubric](study-plan/ai-ml-learning-contract.md)
+- [420-unit day-by-day schedule](study-plan/ai-ml-daily-schedule.md)
+- [Current AI/ML state](progress/ai-ml/current-state.md)
+- [Daily progress](progress/ai-ml/daily-progress.md)
+- [Revision queue](progress/ai-ml/revision-queue.md)
+- [Assessment scorecard](progress/ai-ml/scorecard.md)
+- [Weekly interview assessment bank](assessments/ai-ml/interview-bank.md)
+- `progress/ai-ml/daily-state.json` - structured resume point and actual evidence.
+
+Run `.\scripts\ai-study.ps1 -Action Today` in PowerShell 7 for the active task and
+due reviews. `-Action Validate` checks plan/state consistency; run
+`.\scripts\test-ai-study.ps1` after tracker changes. The weekly syllabus CSV and
+checked source index regenerate the schedule without resetting progress.
+
+The learner authorized publishing AI/ML plan and genuine progress updates.
+Verify each push; do not include unrelated local changes or infer synchronization
+from a local save. Daily check-ins depend on the CLI scheduler being available.

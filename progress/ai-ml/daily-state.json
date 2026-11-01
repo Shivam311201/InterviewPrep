@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "track": "ai-ml",
+  "reviews": [],
+  "nextPrompt": "How does learning a model differ from writing rules?",
+  "publication": {
+    "authorized": true,
+    "scope": "AI/ML plan, assessments, actual session records and progress only",
+    "verifiedBy": "Read live remote after every push; do not infer synchronization from local save."
+  },
+  "activeDay": 1,
+  "sessions": [],
+  "days": [],
+  "learnedDays": []
+}

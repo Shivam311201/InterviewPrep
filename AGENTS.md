@@ -57,3 +57,29 @@ This permission does not apply to other repositories, unrelated changes,
 deployments, force pushes, history rewrites, or changing PR state. Do not launch
 subagents unless explicitly requested. Surface authentication or publication
 failures; never claim synchronization based only on a local save.
+
+## Separate AI/ML track - authorized November 1, 2026
+
+The learner explicitly requested a day-by-day AI/ML plan, assessments, independent
+implementations, daily status, and spaced revision. This supersedes AI deferral
+only for the new track; preserve the entire SWE syllabus and its current Day 4
+generics resume point. DSA remains separate.
+
+Before AI/ML teaching, read `study-plan/ai-ml-learning-contract.md`,
+`progress/ai-ml/daily-state.json`, its current state, revision queue, scorecard,
+the active unit in `study-plan/ai-ml-daily-schedule.md`, and actual session evidence.
+Resume the exact unanswered AI prompt. Do not copy SWE scores into AI mastery.
+
+Use `scripts/ai-study.ps1` for the AI tracker. Its weekly CSV and source index
+generate the schedule and assessment bank; its JSON state generates the progress
+views. Preserve actual attempts, corrections, failed reviews, and exact next tasks.
+Run the tracker validation and behavioral tests after tooling changes.
+
+The learner also explicitly authorized publishing this AI/ML plan and genuine
+current-state/session updates. That is not blanket permission to commit unrelated
+dirty work, replace the SWE plan, or deploy systems. Use exactly one subagent for
+commit/push operations and verify the remote result after every push.
+
+Daily check-ins report the actual active unit and bounded due reviews. Do not
+invent off-chat activity or advance a day because a date passed. The CLI scheduler
+must be available; do not promise notification delivery while it is closed.
