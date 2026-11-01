@@ -1,5 +1,13 @@
 # Progress Scorecard — C# OOP and Memory
 
+> **Continuation reconciled 1 November 2026:** Active study unit is Day 4, with
+> its first generics exercise unanswered. Day 1/2 study sessions are closed by
+> later chat agreement, but their mastery/artifact gaps remain. Historical
+> “resume first” instructions below do not block the new syllabus. See
+> [current state](current-state.md), [daily progress](daily-progress.md), and
+> [revision queue](revision-queue.md). No new learner answers were graded during
+> migration; all scores below retain their original evidence.
+
 Scores are provisional topic-mastery scores from practice, not a single formal interview score. We preserve the topic history and next steps rather than treating every quiz as a full 15-point assessment.
 
 ## Current mastery
@@ -113,3 +121,18 @@ Correction: the previous chat response mistakenly stated 24.5/30. The itemized s
 
 ### Next session
 Short targeted revision on items 1–3, then continue to Day 4. Avoid repeating the full Day 3 syllabus.
+
+## Day 4 — started 1 November 2026
+
+- Generic classes, type safety versus `object`, boxing motivation, generic methods,
+  and type inference were introduced.
+- First `Box<int>` versus `Box<string>` exercise is unanswered; **no Day 4 mastery
+  score is assigned**.
+- Constraints, CLR internals, delegates, events, exceptions, collections, LINQ,
+  executable component/tests, and mixed assessment remain pending.
+- Resume the exact prompt in [current state](current-state.md), then rotate Day 3
+  and Day 1/2 weaknesses through bounded recall.
+- Historical explicit-interface feedback needs care: interface calls are individually
+  valid, but a complete snippet containing invalid `n.Send()` does not compile or
+  execute as a whole. Preserve the original learner answer and 2/3 score; record
+  this assistant correction separately rather than changing learner evidence.

@@ -4,6 +4,14 @@
 **Plan:** 6 study days/week; Day 7 is rest/light review. Target 10–12 hours/week is a planning estimate, not a cutoff. The day's syllabus is complete only when its required learning, practice, and checkpoint are done.  
 **Scope:** C#/.NET, OOP, LLD, OS, DBMS, CN, distributed systems, HLD. DSA remains independent; AI/agentic topics are deferred.
 
+**Execution reconciliation — 1 November 2026:** Day numbers are study units, not
+calendar dates. The active chat expanded Day 3 into OOP and started generics on
+Day 4. The first week below now matches that history; GC/disposal move into Day 5,
+using earlier lessons as recall evidence. Days 8–112 retain the original sequence.
+See [current state](../progress/current-state.md) and
+[daily progress](../progress/daily-progress.md) before continuing. Early coverage
+does not automatically complete later days or remove their remaining syllabus.
+
 ## How to use this schedule
 
 - Each day has a **primary syllabus**, a **required output**, and a **completion check**. Do not count a topic as complete merely because it was explained.
@@ -14,6 +22,11 @@
 - Ask one focused question at a time when interactive testing is useful. Let the learner answer before revealing the solution.
 - Keep the roadmap sequence. Early OS/DBMS/CN sessions are introductions and interleaving, not permission to replace C#/OOP days. Week 5 is the dedicated OS deep dive.
 - End every day by updating the session log, topic notes, mistake/revision queue, scorecard as warranted, and the next session's starting point in GitHub.
+- Save session state locally first, then validate, commit, push, and verify the
+  remote result under the learner's 1 November 2026 standing permission for this repo.
+  Update `progress/daily-state.json`, `current-state.md`, and `daily-progress.md`
+  together. A completed study session may retain incomplete artifacts/mastery;
+  carry those into bounded revision without falsely passing the completion check.
 
 ## Daily session template
 
@@ -43,30 +56,38 @@ Times are flexible. Completion is determined by evidence, not a timer.
 - **Required output:** annotated code traces and a compact comparison table.
 - **Completion check:** predict output and explain why a copied reference is not a copied object.
 
-### Day 3 — Interleaved OS: program, process, address space
-- **Primary syllabus:** C# fields, properties, methods, access modifiers, object construction and initialization; reinforce value/reference semantics.
-- **OS introduction only:** program vs process, executable vs running instance, what an address space means.
-- **Practice:** draw a simple object-reference graph and a process-at-a-glance diagram.
-- **Required output:** C# examples and short OS definitions in your own words.
-- **Completion check:** distinguish the C# object model from the OS process model. Do not expand into scheduling or virtual-memory internals today.
+### Day 3 — C# object model and OOP depth
+- **Syllabus:** fields/properties, access modifiers, encapsulation/invariants, construction/initialization, static/instance, const/readonly, inheritance, virtual/override/new/abstract/sealed, interfaces including explicit/default implementations, composition, DI, ISP/DIP, retry configuration versus execution.
+- **Interleaved OS foundation:** program vs process and address-space basics remain required; earlier OS lessons provide evidence, not automatic completion of diagrams or the Week 5 deep dive.
+- **Practice:** BankAccount invariants; Notification Delivery System with interfaces, constructor DI, validation, extensibility, and tests; object-reference/process-at-a-glance artifacts.
+- **Required output:** reviewed C# implementations/tests, annotated traces, object/process artifacts, and the mixed 10-question assessment.
+- **Completion check:** distinguish static member/overload selection from runtime dispatch, preserve invariants, explain design boundaries, and verify practical outputs.
+- **Recorded state:** theory and assessment completed; practice partial; corrected assessment **22.5/30**. Carry unverified implementation/artifacts into Days 4–6 rather than repeating all theory.
 
-### Day 4 — Managed memory, reachability, and GC
-- **Syllabus:** managed heap, GC roots, object graphs, transitive reachability, cycles, generations 0/1/2, promotion, LOH/background GC at introductory level.
-- **Practice:** mark reachable/unreachable objects in diagrams; explain when objects become eligible for collection.
-- **Required output:** object-graph worksheet and a small C# allocation experiment.
-- **Completion check:** explain why nulling one variable does not guarantee collection and why cycles alone do not prevent collection.
+### Day 4 — Generics, delegates, events, exceptions, collections, LINQ
+- **Syllabus:** generic classes/methods, type inference, constraints, type safety versus object/boxing, CLR generic behavior; delegates and multicast invocation; events and publisher/subscriber lifetime; exception propagation/custom exceptions/rethrow/finally; List/Dictionary/HashSet/Queue/Stack; IEnumerable/IEnumerator and deferred/immediate LINQ execution.
+- **Practice:** generic code traces, collection-choice/debugging scenarios, event ownership/unsubscription and exception paths; build the reusable notification/event component with tests.
+- **Required output:** annotated examples, collection trade-offs, working component/tests, and a mixed assessment with actual answers/corrections.
+- **Completion check:** explain generic type identity and constraints, trace invocation/query execution, justify collections, and verify normal/error paths.
+- **Recorded state:** generics introduction delivered on 1 November; first `Box<T>` exercise unanswered. Resume that prompt before constraints. All later topics and practical/assessment outputs remain pending.
+- **Scope control:** split this study unit across sessions if needed; do not drop its checklist or pretend it fits a fixed calendar day. Later Days 10/11 still assess their remaining depth, variance, schema, and iteration requirements.
 
-### Day 5 — Disposal, finalization, and interview drill
-- **Syllabus:** deterministic cleanup, `IDisposable`, `using`, finalizers, managed vs unmanaged resources, SafeHandle concept; exceptions and `finally`.
-- **Practice:** implement and review a disposable wrapper; oral drill on GC, disposal, parameter passing, and object lifetime.
-- **Required output:** correct disposal example and mistake log.
-- **Completion check:** explain why GC is not a substitute for disposing scarce external resources; answer the day's questions without relying on memorized slogans.
+### Day 5 — Managed memory, GC, and resource-lifetime consolidation
+- **Syllabus:** heap/roots/reachability/cycles, generations/promotion/older-to-younger tracking, introductory LOH/background GC; deterministic cleanup, IDisposable/using/finalizers, managed vs unmanaged resources, SafeHandle concept, exceptions/finally.
+- **Practice:** use existing memory/GC notes for targeted recall rather than restarting mastered basics; object-graph worksheet, allocation experiment, disposable wrapper, and remaining BankAccount validation/tests.
+- **Required output:** allocation/disposal examples, verified tests where relevant, corrected recall evidence, and mistake log.
+- **Completion check:** explain eligibility versus actual collection, roots/cycles, older-to-younger references, and why GC does not replace deterministic resource cleanup.
+- **Recorded state:** this scheduled day has not started. Historical memory/GC topic scores remain valid evidence but do not verify these outputs.
 
 ### Day 6 — Week 1 assessment and consolidation
 - **Syllabus:** closed-book review of Days 1–5; revisit weak C# topics and the introductory OS concepts.
 - **Practice:** code-tracing quiz, one small implementation task, explain GC roots and a disposal scenario aloud.
 - **Required output:** quiz results, topic score evidence, and revision dates.
 - **Completion check:** demonstrate the Week 1 checkpoint from the roadmap. Record gaps without blocking the next week's planned syllabus.
+- **Carry-forward check:** verify remaining Day 1/2 traces/comparison table,
+  practical compiler/runtime explanations, nullable/`in`/boxing checks, and Day 3
+  C# object-reference/process-at-a-glance artifacts. Keep session completion
+  separate from unverified practice or developing mastery.
 
 ### Day 7 — Rest
 Optional light flash recall only. No new syllabus.

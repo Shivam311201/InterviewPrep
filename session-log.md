@@ -1,5 +1,21 @@
 # Session Log — C# OOP, References, Managed Memory, and GC
 
+## Continuation index — 1 November 2026
+
+This file preserves the earlier records below. Continue from
+[current state](progress/current-state.md), not an older “next session” paragraph.
+
+- [Day 3, 29–31 October: preserved question/answer history and corrected assessment](sessions/2026-10-29-to-31-csharp-day3.md)
+- [Day 4, 1 November: generics introduction and exact unanswered exercise](sessions/2026-11-01-csharp-day4.md)
+- [All 112 daily states](progress/daily-progress.md) and [revision queue](progress/revision-queue.md)
+
+The migration reconciles chat numbering with the daily schedule, retains Day 1/2
+gaps without restarting those days, and preserves Day 3's corrected **22.5/30**
+score. No new quiz answers or runnable test evidence were produced. The learner
+subsequently authorized this migration's publication and ongoing study-state
+check-ins for InterviewPrep on 1 November 2026. Validate, commit, push, and verify
+remote results after each session; surface failures rather than claiming success.
+
 This is a structured record of the lesson's questions, follow-ups, corrections, and concepts. Quiz questions are recorded in `assessments/quizzes/memory-gc-quiz.md`; topic notes are in `notes/csharp-oop/memory-and-gc.md`.
 
 > Transcript fidelity note: Questions and answers that are available verbatim in the conversation are preserved as closely as possible. One earlier long user-pasted Java GC-roots explanation is represented by its subject and the discussion points, rather than reconstructed as a verbatim quote.

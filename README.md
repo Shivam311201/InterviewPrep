@@ -4,6 +4,12 @@ Structured preparation notes, quizzes, assessments, revision queue, and scorecar
 
 ## Start here: complete plan
 
+- **[Current state and exact resume point](progress/current-state.md)** — start here before teaching.
+- **[Day-by-day progress](progress/daily-progress.md)** — all 112 plan days, including rest days; session completion is separate from mastery.
+- **[Daily schedule](study-plan/16-week-daily-schedule.md)** — syllabus, required output, and completion checks.
+- **[Revision queue](progress/revision-queue.md)** — retained mistakes and dated recall checks.
+- `progress/daily-state.json` — structured state for continuing assistants; update alongside the human-readable progress files.
+
 - **[Complete 16-week SWE interview roadmap](study-plan/16-week-swe-interview-roadmap.md)** — goals, weekly hours and six-day rhythm, detailed week-by-week syllabus, textbook and official-doc reference strategy, assignments, checkpoints, assessment rubric, spaced repetition, repo-maintenance contract, and instructions for a continuing agent.
 
 ## Current learning record
@@ -14,3 +20,7 @@ Structured preparation notes, quizzes, assessments, revision queue, and scorecar
 
 ## Working agreement
 At the end of each study session, update the relevant topic notes, complete question/answer history, scorecard, mistakes, assignments, and spaced-revision queue. Preserve mistakes and corrections; do not mark unanswered questions as mastered. Verify GitHub writes before reporting success.
+
+Study-day numbers are curriculum positions, not calendar dates. Multiple sessions can belong to one day; missed calendar days do not complete or skip syllabus. Continue Day 4 from its unanswered generics exercise, with short targeted recall rather than restarting Days 1–3.
+
+Follow [AGENTS.md](AGENTS.md) for the continuation and end-of-session update contract. **Standing permission granted on 1 November 2026:** validate, commit, and push study records after each session in this repository, then verify the remote result. Local saves, commits, and remote publication remain distinct; never report local work as synchronized to GitHub.

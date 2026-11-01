@@ -3,6 +3,12 @@
 ## Session outcome
 Session paused at the learner's request. **Day 1 and Day 2 are NOT marked complete.** Continue with the unfinished checks below before progressing the schedule.
 
+> **Later agreement, reconciled 1 November 2026:** After this record, the learner
+> asked to move to Day 3. The chat closed the Day 1/2 study sessions while keeping
+> mastery gaps unverified. Preserve this historical assessment; its instruction
+> to block all progression is superseded. Use bounded recall alongside Day 4,
+> not another full Day 1/2 restart. See [current state](../progress/current-state.md).
+
 ## Learner preference
 - Prefers practical SWE interview assessment over low-value memorization questions. When the learner pushes back on a question, clarify its practical relevance and adapt toward code tracing, debugging, language behavior, and engineering scenarios.
 - Wants the complete remaining question set when requested, rather than an indefinitely extended one-at-a-time quiz.

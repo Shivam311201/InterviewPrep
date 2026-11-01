@@ -1,5 +1,5 @@
 # Complete SWE Interview Preparation Plan
-**Plan version:** 1.0  
+**Plan version:** 1.1
 **Agreed:** 24 October 2026  
 **Duration:** 16 weeks  
 **Weekly effort:** 10–12 hours  
@@ -7,6 +7,16 @@
 **Primary outcome:** Deep, interview-ready understanding of C#/.NET and OOP, LLD, HLD, operating systems, DBMS, computer networks, and distributed systems—not a high-level-only refresher.
 
 This file is the source of truth for the study roadmap. Another agent should read this file, the README, `session-log.md`, `progress/scorecard.md`, the topic notes, and quiz logs before continuing the plan.
+
+**Continuation update — 1 November 2026:** Read
+`progress/current-state.md`, `progress/daily-state.json`, and `AGENTS.md` first
+for the exact active prompt and evidence-based daily state. The daily schedule's
+first week is reconciled with the chat's Day 3 OOP / Day 4 generics sequence;
+GC/resource-lifetime consolidation remains required on Day 5. The overall
+16-week scope and Days 8–112 are preserved. Completed study sessions may carry
+mastery gaps and unverified artifacts into bounded recall without blocking all
+new material. Standing permission granted on 1 November 2026 covers validated
+study-state commits/pushes in this repository; verify the remote after each update.
 
 ---
 
