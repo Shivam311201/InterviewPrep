@@ -325,8 +325,8 @@ if ($Action -eq 'Build') {
     Assert-State $state $catalog
     Write-JsonFile $indexPath $index
     Write-JsonFile $catalogPath $catalog
-    Write-AtomicFile (Join-Path $planDirectory 'ai-ml-daily-schedule.md') $schedule
-    Write-AtomicFile (Join-Path $Root 'assessments\ai-ml\interview-bank.md') $assessmentBank
+    Write-AtomicFile (Join-Path $planDirectory 'ai-ml-daily-schedule.md') ($schedule.TrimEnd("`r", "`n") + "`n")
+    Write-AtomicFile (Join-Path $Root 'assessments\ai-ml\interview-bank.md') ($assessmentBank.TrimEnd("`r", "`n") + "`n")
     Write-JsonFile $statePath $state
     Render-State $state $catalog
     Write-Output "Built $($days.Count) daily units, 60 weekly assessments, and $($index.links.Count) indexed source references. Existing progress was preserved."

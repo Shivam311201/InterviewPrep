@@ -53,6 +53,10 @@ try {
     $catalog = Get-Content -LiteralPath (Join-Path $fixture 'study-plan\ai-ml-daily-catalog.json') -Raw | ConvertFrom-Json -AsHashtable
     $initial = Read-FixtureState
     Assert-Condition ($catalog.days.Count -eq 420 -and @($catalog.days | Where-Object rest).Count -eq 60) '420 daily units with exactly 60 rest units'
+    foreach ($relative in @('study-plan\ai-ml-daily-schedule.md', 'assessments\ai-ml\interview-bank.md')) {
+        $generated = Get-Content -LiteralPath (Join-Path $fixture $relative) -Raw
+        Assert-Condition ($generated.EndsWith("`n") -and -not $generated.EndsWith("`n`n")) "$relative has one final newline"
+    }
     Assert-Condition ($initial.activeDay -eq 1 -and $initial.days.Count -eq 0 -and $initial.sessions.Count -eq 0 -and $initial.reviews.Count -eq 0) 'setup invents no learner evidence or review dates'
     Assert-Rejected { & $tracker -Action Advance -Root $fixture } 'incomplete' 'cannot skip an unanswered day'
     Assert-Rejected {

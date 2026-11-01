@@ -4201,4 +4201,3 @@ Generated from ai-ml-weekly-syllabus.csv by scripts/ai-study.ps1 -Action Build. 
 - **Recall:** use actual due reviews, oldest/high-priority first, usually at most three in 10-20 minutes. Keep unanswered reviews pending.
 - **Checkpoint:** record the learner's answer, evidence, tests where executable work is required, relevant rubric scores, corrections, gaps, and exact next task. Rest days have no new-output requirement.
 - **Sources:** [B:I.14](https://mlsysbook.ai/vol1/14_ml_ops/14_ml_ops.html); [B:II.12](https://mlsysbook.ai/vol2/12_ops_scale/12_ops_scale.html)
-
