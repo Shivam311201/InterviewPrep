@@ -65,6 +65,25 @@ Typical two-hour session: 15 minutes recall, 30 minutes explanation/math,
 10 minutes recording results. Adjust for the topic and fatigue; never declare
 completion based on the timer.
 
+Selected weeks offer a separate **60-90 minute research-paper lab**. It does not
+replace interviews, implementation, revision, any core daily unit, or rest.
+This raises those selected weeks above the normal 12-12.5-hour target. Use three
+passes: identify claims/evidence; trace the method/equations; critique limits and
+transfer to the running project. Produce the listed artifact and defend the paper
+question without notes. Paper recognition is not completion; actual notes,
+reproduction/code where assigned, and assessed explanation are required.
+
+The **research-writing apprenticeship** is also separate and additional. It starts
+with a four-page research note, then a replication report, a controlled ablation
+study, an applied ML-systems study, and finally a gated original capstone paper.
+Allow roughly 2-4 additional hours/week while a writing milestone is active.
+Claims must follow saved experiments; preserve negative results and failed runs.
+Use primary sources, preregister important decisions, report uncertainty and
+compute, audit data/licenses/ethics, and provide reproducible artifacts. A planned
+paper is not proof of novelty, publication quality, authorship, acceptance, or
+career readiness. Seek technically qualified external review before venue choice.
+Follow the target venue's current authorship and AI-assistance disclosure rules.
+
 The interview bank contains **five prompts per week**: conceptual reasoning,
 diagnosis, design judgment, a live implementation change, and transfer from
 earlier material. Early questions build foundations; later questions demand
@@ -132,7 +151,7 @@ weekly CSV and source index without resetting progress. Do not manually edit
 generated schedules or progress views; change the syllabus/state via reviewed
 updates and regenerate. Network access is needed when creating a new source
 index or explicitly running `-Action Build -RefreshSources` after adding source
-references. Missing references or invalid JSON are errors, not empty-success
+references or paper URLs. Missing references or invalid JSON are errors, not empty-success
 fallbacks.
 
 The script never executes learner code or infers a successful test. `TestsPassed`

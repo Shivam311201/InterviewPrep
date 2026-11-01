@@ -11,5 +11,7 @@
   "activeDay": 1,
   "sessions": [],
   "days": [],
-  "learnedDays": []
+  "learnedDays": [],
+  "papers": [],
+  "research": []
 }

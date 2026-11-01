@@ -1,7 +1,7 @@
 #requires -Version 7.0
 [CmdletBinding()]
 param(
-    [ValidateSet('Build', 'Today', 'Record', 'Review', 'Advance', 'Validate')]
+    [ValidateSet('Build', 'Today', 'Record', 'Review', 'Advance', 'PaperToday', 'RecordPaper', 'ResearchToday', 'RecordResearch', 'Validate')]
     [string]$Action = 'Today',
     [string]$Root = (Split-Path $PSScriptRoot -Parent),
     [string]$Date = (Get-Date -Format 'yyyy-MM-dd'),
@@ -20,7 +20,9 @@ param(
     [switch]$AssessmentComplete,
     [switch]$SessionClosed,
     [switch]$RefreshSources,
-    [string]$ReviewId
+    [string]$ReviewId,
+    [int]$PaperWeek,
+    [string]$ResearchId
 )
 
 Set-StrictMode -Version Latest
@@ -31,6 +33,8 @@ if ($actualDate.Date -gt (Get-Date).Date) { throw 'Learning and review dates can
 $planDirectory = Join-Path $Root 'study-plan'
 $stateDirectory = Join-Path $Root 'progress\ai-ml'
 $syllabusPath = Join-Path $planDirectory 'ai-ml-weekly-syllabus.csv'
+$paperTrackPath = Join-Path $planDirectory 'ai-ml-research-paper-track.csv'
+$researchTrackPath = Join-Path $planDirectory 'ai-ml-research-writing-track.csv'
 $indexPath = Join-Path $planDirectory 'ai-ml-source-index.json'
 $catalogPath = Join-Path $planDirectory 'ai-ml-daily-catalog.json'
 $statePath = Join-Path $stateDirectory 'daily-state.json'
@@ -113,6 +117,47 @@ function Get-Syllabus {
         }
     }
     $rows
+}
+
+function Get-PaperTrack {
+    $papers = @(Import-Csv -LiteralPath $paperTrackPath)
+    if ($papers.Count -lt 1) { throw 'The research-paper track cannot be empty.' }
+    $seenWeeks = @{}
+    foreach ($paper in $papers) {
+        $week = [int]$paper.Week
+        if ($week -lt 1 -or $week -gt 60 -or $seenWeeks.ContainsKey([string]$week)) {
+            throw "Invalid or duplicate paper week: $week"
+        }
+        $seenWeeks[[string]$week] = $true
+        foreach ($field in @('Title', 'PrimaryUrl', 'Focus', 'Artifact', 'InterviewQuestion')) {
+            if ([string]::IsNullOrWhiteSpace($paper.$field)) { throw "Empty paper field $field in week $week" }
+        }
+        if ($paper.PrimaryUrl -notmatch '^https://') { throw "Paper URL must use HTTPS in week $week" }
+    }
+    $papers
+}
+
+function Get-ResearchTrack {
+    $milestones = @(Import-Csv -LiteralPath $researchTrackPath)
+    if ($milestones.Count -lt 1) { throw 'The research-writing track cannot be empty.' }
+    $seen = @{}
+    $previousStart = 0
+    foreach ($milestone in $milestones) {
+        if ([string]::IsNullOrWhiteSpace($milestone.Id) -or $seen.ContainsKey($milestone.Id)) {
+            throw "Invalid or duplicate research milestone: $($milestone.Id)"
+        }
+        $seen[$milestone.Id] = $true
+        $start = [int]$milestone.StartWeek
+        $end = [int]$milestone.EndWeek
+        if ($start -lt 1 -or $end -lt $start -or $end -gt 60 -or $start -lt $previousStart) {
+            throw "Invalid research milestone week range: $($milestone.Id)"
+        }
+        $previousStart = $start
+        foreach ($field in @('Project', 'Milestone', 'Deliverable', 'Gate', 'DefenseQuestion')) {
+            if ([string]::IsNullOrWhiteSpace($milestone.$field)) { throw "Empty research field $field in $($milestone.Id)" }
+        }
+    }
+    $milestones
 }
 
 function Get-SourceIndex($Rows) {
@@ -203,6 +248,22 @@ function Assert-State($State, $Catalog) {
         if ($review.status -notin @('pending', 'complete')) { throw 'Invalid review status.' }
         [datetime]::ParseExact($review.due, 'yyyy-MM-dd', [Globalization.CultureInfo]::InvariantCulture) | Out-Null
     }
+    foreach ($paper in $State.papers) {
+        if ($paper.week -lt 1 -or $paper.week -gt 60 -or
+            $paper.status -notin @('in_progress', 'complete')) {
+            throw 'Invalid research-paper state.'
+        }
+        foreach ($research in $State.research) {
+            if ([string]::IsNullOrWhiteSpace($research.id) -or
+                $research.status -notin @('in_progress', 'complete')) {
+                throw 'Invalid research-writing state.'
+            }
+            Assert-Evidence @($research.evidence)
+            if ($research.scores.Count) { Assert-Scores @($research.scores) @($research.dimensions) }
+        }
+        Assert-Evidence @($paper.evidence)
+        if ($paper.scores.Count) { Assert-Scores @($paper.scores) @($paper.dimensions) }
+    }
     for ($number = 1; $number -lt $State.activeDay; $number++) {
         $unit = $Catalog.days[$number - 1]
         if (-not $unit.rest -and -not @($State.days | Where-Object { $_.day -eq $number -and $_.complete }).Count) {
@@ -256,23 +317,63 @@ function Render-State($State, $Catalog) {
         }
     }
     Write-AtomicFile (Join-Path $stateDirectory 'scorecard.md') $scorecard
+    $paperProgress = "# AI/ML research-paper progress`n`n"
+    $paperProgress += "Paper labs are additional 60-90 minute sessions. They do not replace the six core study units, interview drills, implementation, revision, or rest.`n`n"
+    $paperProgress += "| Week | Paper | Status | Score | Evidence |`n|---|---|---|---|---|`n"
+    foreach ($paper in $papers) {
+        $record = @($State.papers | Where-Object { $_.week -eq [int]$paper.Week })
+        if ($record.Count) {
+            $score = if ($record[0].scores.Count) { "$(($record[0].scores | Measure-Object -Sum).Sum)/$(3 * $record[0].scores.Count)" } else { "not assessed" }
+            $paperProgress += "| $($paper.Week) | $($paper.Title) | $($record[0].status) | $score | $($record[0].evidence -join '; ') |`n"
+        }
+        else { $paperProgress += "| $($paper.Week) | $($paper.Title) | not_started | not assessed | |`n" }
+    }
+    Write-AtomicFile (Join-Path $stateDirectory 'paper-progress.md') $paperProgress
+    $researchProgress = "# AI/ML research-writing progress`n`n"
+    $researchProgress += "Research writing is an additional apprenticeship. It never replaces core study, interviews, implementation, revision, rest, or paper-reading labs. No novelty, result, authorship, publication, or acceptance is inferred from planned work.`n`n"
+    $researchProgress += "| ID | Weeks | Project | Milestone | Status | Score | Evidence |`n|---|---|---|---|---|---|---|`n"
+    foreach ($milestone in $researchMilestones) {
+        $record = @($State.research | Where-Object { $_.id -eq $milestone.Id })
+        if ($record.Count) {
+            $score = if ($record[0].scores.Count) { "$(($record[0].scores | Measure-Object -Sum).Sum)/$(3 * $record[0].scores.Count)" } else { "not assessed" }
+            $researchProgress += "| $($milestone.Id) | $($milestone.StartWeek)-$($milestone.EndWeek) | $($milestone.Project) | $($milestone.Milestone) | $($record[0].status) | $score | $($record[0].evidence -join '; ') |`n"
+        }
+        else { $researchProgress += "| $($milestone.Id) | $($milestone.StartWeek)-$($milestone.EndWeek) | $($milestone.Project) | $($milestone.Milestone) | not_started | not assessed | |`n" }
+    }
+    Write-AtomicFile (Join-Path $stateDirectory 'research-writing-progress.md') $researchProgress
 }
 
 $rows = @(Get-Syllabus)
+$papers = @(Get-PaperTrack)
+$researchMilestones = @(Get-ResearchTrack)
 if ($Action -eq 'Build') {
     $existing = if (Test-Path -LiteralPath $statePath) { Read-JsonFile $statePath } else { $null }
     if ($existing) {
-        Assert-State $existing (Read-JsonFile $catalogPath)
+        if (-not $existing.ContainsKey('papers')) { $existing.papers = @() }
+        if (-not $existing.ContainsKey('research')) { $existing.research = @() }
         if ($existing.ContainsKey('learnedWeeks')) {
             if ($existing.learnedWeeks.Count) { throw 'Existing week-based reviews require an explicit evidence-preserving migration.' }
             $existing.Remove('learnedWeeks')
             $existing.learnedDays = @()
         }
+        Assert-State $existing (Read-JsonFile $catalogPath)
     }
     $index = Get-SourceIndex $rows
     $days = @()
     $schedule = "# AI/ML day-by-day schedule`n`nGenerated from ai-ml-weekly-syllabus.csv by scripts/ai-study.ps1 -Action Build. Read ai-ml-learning-contract.md first. Day numbers are study units, not calendar deadlines. Six study units plus one rest unit per week.`n`n"
     $assessmentBank = "# AI/ML interview assessments`n`nAttempt questions before looking at references or assistant solutions. Record actual answers. Weekly assessments use five dimensions scored 0-3 each, maximum 15. Narrow checks use only relevant named dimensions and their actual denominator.`n`n"
+    $paperPlan = "# AI/ML research-paper studio`n`n"
+    $paperPlan += "Paper labs are separate optional-depth sessions of 60-90 minutes in the listed week. They never replace core study, interviews, implementation, revision, or rest. Read the primary paper, preserve actual notes, and distinguish the authors' evidence from your inference. Plan setup does not mark any paper read.`n`n"
+    $paperPlan += "| Week | Paper | Focus | Required artifact | Defense question |`n|---|---|---|---|---|`n"
+    foreach ($paper in $papers) {
+        $paperPlan += "| $($paper.Week) | [$($paper.Title)]($($paper.PrimaryUrl)) | $($paper.Focus) | $($paper.Artifact) | $($paper.InterviewQuestion) |`n"
+    }
+    $researchPlan = "# AI/ML research-writing apprenticeship`n`n"
+    $researchPlan += "This is a separate additional track. Start with short research notes and replications, then controlled empirical studies, and only later attempt an original capstone paper. Saved experiments determine claims; negative findings are valid. Publication quality or acceptance is never promised, and external expert review is required before selecting a venue.`n`n"
+    $researchPlan += "| ID | Weeks | Project | Milestone | Deliverable | Completion gate | Defense |`n|---|---|---|---|---|---|---|`n"
+    foreach ($milestone in $researchMilestones) {
+        $researchPlan += "| $($milestone.Id) | $($milestone.StartWeek)-$($milestone.EndWeek) | $($milestone.Project) | $($milestone.Milestone) | $($milestone.Deliverable) | $($milestone.Gate) | $($milestone.DefenseQuestion) |`n"
+    }
     foreach ($row in $rows) {
         $week = [int]$row.Week
         $priorWeeks = if ($row.RecallWeeks) { @($row.RecallWeeks.Split(';') | ForEach-Object { [int]$_ }) } else { @() }
@@ -318,7 +419,7 @@ if ($Action -eq 'Build') {
     $state = if ($existing) { $existing } else {
         @{
             schemaVersion = 1; track = 'ai-ml'; activeDay = 1; nextPrompt = $days[0].prompt
-            days = @(); reviews = @(); sessions = @(); learnedDays = @()
+            days = @(); reviews = @(); sessions = @(); papers = @(); research = @(); learnedDays = @()
             publication = @{ authorized = $true; scope = 'AI/ML plan, assessments, actual session records and progress only'; verifiedBy = 'Read live remote after every push; do not infer synchronization from local save.' }
         }
     }
@@ -327,6 +428,8 @@ if ($Action -eq 'Build') {
     Write-JsonFile $catalogPath $catalog
     Write-AtomicFile (Join-Path $planDirectory 'ai-ml-daily-schedule.md') ($schedule.TrimEnd("`r", "`n") + "`n")
     Write-AtomicFile (Join-Path $Root 'assessments\ai-ml\interview-bank.md') ($assessmentBank.TrimEnd("`r", "`n") + "`n")
+    Write-AtomicFile (Join-Path $planDirectory 'ai-ml-research-paper-plan.md') ($paperPlan.TrimEnd("`r", "`n") + "`n")
+    Write-AtomicFile (Join-Path $planDirectory 'ai-ml-research-writing-plan.md') ($researchPlan.TrimEnd("`r", "`n") + "`n")
     Write-JsonFile $statePath $state
     Render-State $state $catalog
     Write-Output "Built $($days.Count) daily units, 60 weekly assessments, and $($index.links.Count) indexed source references. Existing progress was preserved."
@@ -341,6 +444,14 @@ if ($Action -eq 'Validate') {
     foreach ($row in $rows) {
         foreach ($token in $row.Resources.Split(';')) {
             if (-not $index.links.ContainsKey($token)) { throw "Missing indexed reference: $token" }
+        }
+        if ($RefreshSources) {
+            foreach ($paper in $papers) {
+                $response = Invoke-WebRequest -Uri $paper.PrimaryUrl -Method Head
+                if ($response.StatusCode -lt 200 -or $response.StatusCode -ge 400) {
+                    throw "Paper source is inaccessible: $($paper.PrimaryUrl)"
+                }
+            }
         }
     }
     for ($number = 1; $number -le 420; $number++) {
@@ -373,6 +484,46 @@ if ($Action -eq 'Today') {
     $due = @($state.reviews | Where-Object { $_.status -eq 'pending' -and $_.due -le $Date } | Sort-Object due, id)
     Write-Output "Pending due reviews: $($due.Count); show at most 3, retain the rest."
     $due | Select-Object -First 3 id, due, prompt | Format-List
+    return
+}
+if ($Action -eq 'PaperToday') {
+    $currentWeek = [math]::Min(60, [math]::Ceiling($state.activeDay / 7))
+    $next = @($papers | Where-Object {
+        [int]$_.Week -le $currentWeek -and
+        -not @($state.papers | Where-Object { $_.week -eq [int]$_.Week -and $_.status -eq 'complete' }).Count
+    } | Sort-Object { [int]$_.Week } | Select-Object -First 1)
+    if (-not $next.Count) {
+        Write-Output "No eligible unfinished paper lab. The next paper unlocks when its prerequisite week is reached."
+    }
+    else {
+        Write-Output "Paper lab Week $($next[0].Week): $($next[0].Title)"
+        Write-Output "Focus: $($next[0].Focus)"
+        Write-Output "Artifact: $($next[0].Artifact)"
+        Write-Output "Defense question: $($next[0].InterviewQuestion)"
+    }
+    return
+}
+if ($Action -eq 'ResearchToday') {
+    $currentWeek = [math]::Min(60, [math]::Ceiling($state.activeDay / 7))
+    $completedIds = @($state.research | Where-Object { $_.status -eq 'complete' } | ForEach-Object { $_.id })
+    $next = $null
+    for ($index = 0; $index -lt $researchMilestones.Count; $index++) {
+        $candidate = $researchMilestones[$index]
+        $previousComplete = $index -eq 0 -or $researchMilestones[$index - 1].Id -in $completedIds
+        if ([int]$candidate.StartWeek -le $currentWeek -and $candidate.Id -notin $completedIds -and $previousComplete) {
+            $next = $candidate
+            break
+        }
+    }
+    if (-not $next) {
+        Write-Output 'No eligible unfinished research-writing milestone. The next milestone unlocks after its prerequisite week and prior milestone.'
+    }
+    else {
+        Write-Output "Research milestone $($next.Id): $($next.Project) - $($next.Milestone)"
+        Write-Output "Deliverable: $($next.Deliverable)"
+        Write-Output "Gate: $($next.Gate)"
+        Write-Output "Defense question: $($next.DefenseQuestion)"
+    }
     return
 }
 if ($Action -eq 'Review') {
@@ -448,7 +599,8 @@ elseif ($Action -eq 'Record') {
         scores = $Scores; dimensions = $Dimensions; denominator = 3 * $Scores.Count
         evidence = $Evidence; gaps = $Gaps; nextPrompt = $NextPrompt
     }
-    if ($TheoryComplete -and $unit.slot -in @(1, 2, 6) -and $unit.day -notin $state.learnedDays) {
+    if ($TheoryComplete -and $unit.slot -in @(1, 2, 6) -and
+        $unit.day -notin $state.learnedDays) {
         $state.learnedDays += $unit.day
         foreach ($offset in $reviewOffsets) {
             $state.reviews += @{
@@ -469,6 +621,102 @@ elseif ($Action -eq 'Record') {
         }
     }
     $state.nextPrompt = $NextPrompt
+}
+elseif ($Action -eq 'RecordPaper') {
+    $paper = @($papers | Where-Object { [int]$_.Week -eq $PaperWeek })
+    if ($paper.Count -ne 1) { throw 'Select exactly one configured paper week.' }
+    $currentWeek = [math]::Min(60, [math]::Ceiling($state.activeDay / 7))
+    if ($PaperWeek -gt $currentWeek) { throw 'Paper prerequisites have not yet been reached in the core curriculum.' }
+    foreach ($value in @($Prompt, $Answer, $Notes)) {
+        if ([string]::IsNullOrWhiteSpace($value)) { throw 'Paper record requires prompt, actual answer and assessment notes.' }
+    }
+    Assert-Evidence $Evidence
+    Assert-Scores $Scores $Dimensions
+    $records = @($state.papers | Where-Object { $_.week -eq $PaperWeek })
+    if ($records.Count) { $entry = $records[0] }
+    else {
+        $entry = @{
+            week = $PaperWeek; title = $paper[0].Title; status = 'in_progress'; attempts = @()
+            evidence = @(); scores = @(); dimensions = @(); gaps = @()
+        }
+        $state.papers += $entry
+    }
+    $entry.attempts += @{
+        date = $Date; prompt = $Prompt; answer = $Answer; notes = $Notes
+        scores = $Scores; dimensions = $Dimensions; evidence = $Evidence; gaps = $Gaps
+    }
+    $entry.evidence = @(@($entry.evidence) + $Evidence | Sort-Object -Unique)
+    $entry.scores = $Scores
+    $entry.dimensions = $Dimensions
+    $entry.gaps = @(@($entry.gaps) + $Gaps | Sort-Object -Unique)
+    $entry.status = if ($Scores.Count -eq 5 -and ($Scores | Measure-Object -Sum).Sum -ge 10 -and
+        @($Scores | Where-Object { $_ -lt 2 }).Count -eq 0) { 'complete' } else { 'in_progress' }
+    if (@($Scores | Where-Object { $_ -lt 2 }).Count -and -not $Gaps.Count) {
+        throw 'A weak paper assessment requires an explicit misconception or remediation gap.'
+    }
+    foreach ($offset in $reviewOffsets) {
+        $reviewId = "P$PaperWeek-R$offset"
+        if (-not @($state.reviews | Where-Object { $_.id -eq $reviewId }).Count) {
+            $state.reviews += @{
+                id = $reviewId; week = $PaperWeek; learnedOn = $Date
+                originalDue = $actualDate.AddDays($offset).ToString('yyyy-MM-dd')
+                due = $actualDate.AddDays($offset).ToString('yyyy-MM-dd'); status = 'pending'; attempts = @()
+                prompt = "$($paper[0].InterviewQuestion) State the paper's evidence, one limitation, and a connection to the running implementation."
+            }
+        }
+    }
+}
+elseif ($Action -eq 'RecordResearch') {
+    $matches = @($researchMilestones | Where-Object { $_.Id -eq $ResearchId })
+    if ($matches.Count -ne 1) { throw 'Select exactly one configured research milestone.' }
+    $milestone = $matches[0]
+    $position = [array]::IndexOf($researchMilestones, $milestone)
+    $currentWeek = [math]::Min(60, [math]::Ceiling($state.activeDay / 7))
+    if ([int]$milestone.StartWeek -gt $currentWeek) { throw 'Research milestone prerequisites have not yet been reached.' }
+    if ($position -gt 0) {
+        $previousId = $researchMilestones[$position - 1].Id
+        if (-not @($state.research | Where-Object { $_.id -eq $previousId -and $_.status -eq 'complete' }).Count) {
+            throw "Previous research milestone is incomplete: $previousId"
+        }
+    }
+    foreach ($value in @($Prompt, $Answer, $Notes)) {
+        if ([string]::IsNullOrWhiteSpace($value)) { throw 'Research record requires prompt, actual defense answer and review notes.' }
+    }
+    Assert-Evidence $Evidence
+    Assert-Scores $Scores $Dimensions
+    $records = @($state.research | Where-Object { $_.id -eq $ResearchId })
+    if ($records.Count) { $entry = $records[0] }
+    else {
+        $entry = @{
+            id = $ResearchId; project = $milestone.Project; milestone = $milestone.Milestone
+            status = 'in_progress'; attempts = @(); evidence = @(); scores = @(); dimensions = @(); gaps = @()
+        }
+        $state.research += $entry
+    }
+    $entry.attempts += @{
+        date = $Date; prompt = $Prompt; answer = $Answer; notes = $Notes
+        scores = $Scores; dimensions = $Dimensions; evidence = $Evidence; gaps = $Gaps
+    }
+    $entry.evidence = @(@($entry.evidence) + $Evidence | Sort-Object -Unique)
+    $entry.scores = $Scores
+    $entry.dimensions = $Dimensions
+    $entry.gaps = @(@($entry.gaps) + $Gaps | Sort-Object -Unique)
+    $entry.status = if ($Scores.Count -eq 5 -and ($Scores | Measure-Object -Sum).Sum -ge 10 -and
+        @($Scores | Where-Object { $_ -lt 2 }).Count -eq 0) { 'complete' } else { 'in_progress' }
+    if (@($Scores | Where-Object { $_ -lt 2 }).Count -and -not $Gaps.Count) {
+        throw 'A weak research review requires an explicit methodological or writing gap.'
+    }
+    foreach ($offset in $reviewOffsets) {
+        $reviewId = "RW-$ResearchId-R$offset"
+        if (-not @($state.reviews | Where-Object { $_.id -eq $reviewId }).Count) {
+            $state.reviews += @{
+                id = $reviewId; week = [int]$milestone.StartWeek; learnedOn = $Date
+                originalDue = $actualDate.AddDays($offset).ToString('yyyy-MM-dd')
+                due = $actualDate.AddDays($offset).ToString('yyyy-MM-dd'); status = 'pending'; attempts = @()
+                prompt = "$($milestone.DefenseQuestion) Restate the evidence, limitation, and next methodological decision."
+            }
+        }
+    }
 }
 elseif ($Action -eq 'Advance') {
     if ($state.activeDay -gt 420) { throw 'Already at the end of the plan.' }

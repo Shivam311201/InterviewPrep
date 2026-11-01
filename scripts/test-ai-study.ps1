@@ -8,6 +8,8 @@ $tracker = Join-Path $PSScriptRoot 'ai-study.ps1'
 $fixture = Join-Path ([IO.Path]::GetTempPath()) ("interviewprep-ai-tests-" + [guid]::NewGuid().ToString('N'))
 [IO.Directory]::CreateDirectory((Join-Path $fixture 'study-plan')) | Out-Null
 Copy-Item -LiteralPath (Join-Path $repo 'study-plan\ai-ml-weekly-syllabus.csv') -Destination (Join-Path $fixture 'study-plan')
+Copy-Item -LiteralPath (Join-Path $repo 'study-plan\ai-ml-research-paper-track.csv') -Destination (Join-Path $fixture 'study-plan')
+Copy-Item -LiteralPath (Join-Path $repo 'study-plan\ai-ml-research-writing-track.csv') -Destination (Join-Path $fixture 'study-plan')
 Copy-Item -LiteralPath (Join-Path $repo 'study-plan\ai-ml-source-index.json') -Destination (Join-Path $fixture 'study-plan')
 [IO.Directory]::CreateDirectory((Join-Path $fixture 'sessions')) | Out-Null
 [IO.File]::WriteAllText((Join-Path $fixture 'sessions\evidence.txt'), 'Synthetic test-fixture attempt and assessment; not learner evidence.')
@@ -53,7 +55,14 @@ try {
     $catalog = Get-Content -LiteralPath (Join-Path $fixture 'study-plan\ai-ml-daily-catalog.json') -Raw | ConvertFrom-Json -AsHashtable
     $initial = Read-FixtureState
     Assert-Condition ($catalog.days.Count -eq 420 -and @($catalog.days | Where-Object rest).Count -eq 60) '420 daily units with exactly 60 rest units'
-    foreach ($relative in @('study-plan\ai-ml-daily-schedule.md', 'assessments\ai-ml\interview-bank.md')) {
+    $paperRows = @(Import-Csv -LiteralPath (Join-Path $fixture 'study-plan\ai-ml-research-paper-track.csv'))
+    Assert-Condition ($paperRows.Count -eq 15) '15 progressive research-paper labs are configured'
+    Assert-Condition (@($catalog.days | Where-Object { $_.ContainsKey('paper') }).Count -eq 0) 'paper labs do not replace or alter core daily units'
+    Assert-Condition ([int]$paperRows[0].Week -eq 5 -and $paperRows[0].Title -match 'back-propagating') 'paper ladder begins after the relevant calculus prerequisite'
+    $researchRows = @(Import-Csv -LiteralPath (Join-Path $fixture 'study-plan\ai-ml-research-writing-track.csv'))
+    Assert-Condition ($researchRows.Count -eq 38) 'research writing progresses through 38 gated milestones'
+    Assert-Condition ($researchRows[0].Project -eq 'Research foundations' -and $researchRows[-1].Milestone -eq 'Submission decision and public release') 'research writing moves from a basic note to an externally reviewed submission decision'
+    foreach ($relative in @('study-plan\ai-ml-daily-schedule.md', 'study-plan\ai-ml-research-paper-plan.md', 'study-plan\ai-ml-research-writing-plan.md', 'assessments\ai-ml\interview-bank.md')) {
         $generated = Get-Content -LiteralPath (Join-Path $fixture $relative) -Raw
         Assert-Condition ($generated.EndsWith("`n") -and -not $generated.EndsWith("`n`n")) "$relative has one final newline"
     }
@@ -63,7 +72,17 @@ try {
     & $powershell -NoProfile -NonInteractive -File $tracker -Action Build -Root $fixture | Out-Null
     if ($LASTEXITCODE -ne 0) { throw 'Fresh-process regeneration failed.' }
     Assert-Condition ((Get-FileHash -LiteralPath $catalogFile).Hash -eq $catalogHash) 'catalog regeneration is deterministic across fresh PowerShell processes'
-    Assert-Condition ($initial.activeDay -eq 1 -and $initial.days.Count -eq 0 -and $initial.sessions.Count -eq 0 -and $initial.reviews.Count -eq 0) 'setup invents no learner evidence or review dates'
+    Assert-Condition ($initial.activeDay -eq 1 -and $initial.days.Count -eq 0 -and $initial.sessions.Count -eq 0 -and $initial.reviews.Count -eq 0 -and $initial.papers.Count -eq 0 -and $initial.research.Count -eq 0) 'setup invents no learner evidence, paper/research completion or review dates'
+    $paperToday = (& $tracker -Action PaperToday -Root $fixture) -join "`n"
+    Assert-Condition ($paperToday -match 'No eligible unfinished paper lab') 'paper lab remains locked until its prerequisite week'
+    Assert-Rejected {
+        & $tracker -Action RecordPaper -Root $fixture -PaperWeek 5 -Date $pastDate -Prompt P -Answer A -Notes N -Evidence 'sessions\evidence.txt' -Scores 2 -Dimensions Concepts
+    } 'prerequisites' 'cannot record a paper before its curriculum prerequisite'
+    $researchToday = (& $tracker -Action ResearchToday -Root $fixture) -join "`n"
+    Assert-Condition ($researchToday -match 'No eligible unfinished research-writing milestone') 'research writing remains locked until its prerequisite week'
+    Assert-Rejected {
+        & $tracker -Action RecordResearch -Root $fixture -ResearchId R0-01 -Date $pastDate -Prompt P -Answer A -Notes N -Evidence 'sessions\evidence.txt' -Scores 2 -Dimensions Concepts
+    } 'prerequisites' 'cannot record research writing before its curriculum prerequisite'
     Assert-Rejected { & $tracker -Action Advance -Root $fixture } 'incomplete' 'cannot skip an unanswered day'
     Assert-Rejected {
         & $tracker -Action Record -Root $fixture -Date $pastDate -Prompt P -Answer A -Notes N -NextPrompt Q -Evidence '..\outside.txt'

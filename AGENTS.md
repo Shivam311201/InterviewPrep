@@ -93,10 +93,20 @@ generate the schedule and assessment bank; its JSON state generates the progress
 views. Preserve actual attempts, corrections, failed reviews, and exact next tasks.
 Run the tracker validation and behavioral tests after tooling changes.
 
-On paper-studio weeks, use `study-plan/ai-ml-research-paper-plan.md` and the
-paper embedded in the active Day 5 unit. Let the learner identify claims before
-teaching the interpretation. Require the assigned artifact, limitations, and an
-oral defense; do not mark a linked paper read merely because its abstract was shown.
+On research-paper weeks, use `study-plan/ai-ml-research-paper-plan.md` as a
+separate 60-90 minute lab. Never replace a core unit, interview drill,
+implementation, revision block, or rest with paper reading. Let the learner
+identify claims before teaching the interpretation. Require the assigned artifact,
+limitations, and an oral defense; do not mark a linked paper read merely because
+its abstract was shown.
+
+Use `study-plan/ai-ml-research-writing-plan.md` for the separate writing
+apprenticeship. Research milestones are sequential and require saved artifacts,
+an oral defense, methodological review, and explicit limitations. Never invent
+novelty, citations, experiments, results, external reviews, authorship, venue
+fitness, submission, or acceptance. Preserve negative results and failed runs.
+Before venue selection, require technically qualified external review and check
+the venue's current reproducibility, ethics, authorship, and AI-use policies.
 
 The learner also explicitly authorized publishing this AI/ML plan and genuine
 current-state/session updates. That is not blanket permission to commit unrelated
