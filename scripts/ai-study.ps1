@@ -299,7 +299,7 @@ if ($Action -eq 'Build') {
                 6 { @{ title = 'Assessment and consolidation'; syllabus = 'Closed-book explanation, live implementation, edge cases, design tradeoffs, and delayed transfer.'; task = "Complete Week $week assessment questions 1-5 and verify its implementation/tests."; prompt = "Week $week assessment: start with $($row.ConceptQuestion)" } }
                 7 { @{ title = 'Rest or optional light recall'; syllabus = 'No new syllabus. Optional short recall only; rest is valid.'; task = 'Rest; if you review, record only the actual review outcome.'; prompt = 'Rest; resume the next study unit when ready.' } }
             }
-            $unit = @{
+            $unit = [ordered]@{
                 day = $number; week = $week; slot = $slot; stage = $row.Stage; topic = $row.Topic
                 title = $lesson.title; syllabus = $lesson.syllabus; task = $lesson.task; prompt = $lesson.prompt
                 rest = ($slot -eq 7); requiresExecutable = ($slot -in @(3, 4, 6))
@@ -314,7 +314,7 @@ if ($Action -eq 'Build') {
             $schedule += "- **Sources:** $($resources -join '; ')`n`n"
         }
     }
-    $catalog = @{ schemaVersion = 1; track = 'ai-ml'; days = $days }
+    $catalog = [ordered]@{ schemaVersion = 1; track = 'ai-ml'; days = $days }
     $state = if ($existing) { $existing } else {
         @{
             schemaVersion = 1; track = 'ai-ml'; activeDay = 1; nextPrompt = $days[0].prompt

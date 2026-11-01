@@ -57,6 +57,12 @@ try {
         $generated = Get-Content -LiteralPath (Join-Path $fixture $relative) -Raw
         Assert-Condition ($generated.EndsWith("`n") -and -not $generated.EndsWith("`n`n")) "$relative has one final newline"
     }
+    $catalogFile = Join-Path $fixture 'study-plan\ai-ml-daily-catalog.json'
+    $catalogHash = (Get-FileHash -LiteralPath $catalogFile).Hash
+    $powershell = (Get-Process -Id $PID).Path
+    & $powershell -NoProfile -NonInteractive -File $tracker -Action Build -Root $fixture | Out-Null
+    if ($LASTEXITCODE -ne 0) { throw 'Fresh-process regeneration failed.' }
+    Assert-Condition ((Get-FileHash -LiteralPath $catalogFile).Hash -eq $catalogHash) 'catalog regeneration is deterministic across fresh PowerShell processes'
     Assert-Condition ($initial.activeDay -eq 1 -and $initial.days.Count -eq 0 -and $initial.sessions.Count -eq 0 -and $initial.reviews.Count -eq 0) 'setup invents no learner evidence or review dates'
     Assert-Rejected { & $tracker -Action Advance -Root $fixture } 'incomplete' 'cannot skip an unanswered day'
     Assert-Rejected {
